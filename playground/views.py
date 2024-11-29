@@ -1,12 +1,11 @@
 from django.http import HttpResponse
-from store.models import Product
 from django.shortcuts import render
+from store.models import Product
+from tags.models import TaggedItem
 
 
 # Create your views here.
 def say_hello(request):
-    query_set = Product.objects.filter(unit_price__range=(20, 30))
+    queryset = TaggedItem.objects.get_tags_for(Product, 1)
 
-    return render(
-        request, "hello.html", {"name": "Piyush", "products": list(query_set)}
-    )
+    return render(request, "hello.html", {"name": "Piyush", "tags": list(queryset)})
