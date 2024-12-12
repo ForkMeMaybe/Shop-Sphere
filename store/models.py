@@ -1,6 +1,6 @@
 from django.db import models
 from django.core.validators import MinValueValidator
-from django.db.models.fields import validators
+from uuid import uuid4
 
 
 # Create your models here.
@@ -91,20 +91,24 @@ class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.PROTECT)
 
 
-class Address(models.Model):
-    street = models.CharField(max_length=255)
-    city = models.CharField(max_length=255)
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
-
-
 class Cart(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid4)
     created_at = models.DateTimeField(auto_now_add=True)
 
 
 class CartItem(models.Model):
-    quantity = models.PositiveSmallIntegerField()
-    cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
+    quantity = models.PositiveSmallIntegerField(validators=[MinValueValidator(1)])
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name="items")
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = [["cart", "product"]]
+
+
+class Address(models.Model):
+    street = models.CharField(max_length=255)
+    city = models.CharField(max_length=255)
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
 
 
 class Review(models.Model):
