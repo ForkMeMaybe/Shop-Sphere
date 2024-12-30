@@ -13,6 +13,7 @@ class OrderItemInline(admin.TabularInline):
     model = models.OrderItem
     min_num = 1
     max_num = 10
+    readonly_fields = ["unit_price"]
 
 
 @admin.register(models.Order)

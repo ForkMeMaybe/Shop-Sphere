@@ -14,7 +14,7 @@ class Promotion(models.Model):
 class Collection(models.Model):
     title = models.CharField(max_length=255)
     featured_product = models.ForeignKey(
-        "Product", on_delete=models.SET_NULL, null=True, related_name="+"
+        "Product", on_delete=models.SET_NULL, null=True, related_name="+", blank=True
     )
 
     def __str__(self):
@@ -72,6 +72,7 @@ class Customer(models.Model):
 
     class Meta:
         ordering = ["user__first_name", "user__last_name"]
+        permissions = [("view_history", "Can view history")]
 
 
 class Order(models.Model):
@@ -99,7 +100,7 @@ class OrderItem(models.Model):
     )
     quantity = models.PositiveSmallIntegerField()
     unit_price = models.DecimalField(max_digits=6, decimal_places=2)
-    order = models.ForeignKey(Order, on_delete=models.PROTECT)
+    order = models.ForeignKey(Order, on_delete=models.PROTECT, related_name="items")
 
 
 class Cart(models.Model):
