@@ -12,6 +12,8 @@ django-filter = "*"
 djoser = "*"
 djangorestframework-simplejwt = "*"
 psycopg = "*"
+pillow = "*"
+django-cors-headers = "*"
 
 [dev-packages]
 
