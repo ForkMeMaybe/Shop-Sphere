@@ -1,10 +1,16 @@
 from django.http import HttpResponse
 from django.shortcuts import render
-from store.models import Product
-from tags.models import TaggedItem
+from django.core.mail import EmailMessage, BadHeaderError
+from templated_mail.mail import BaseEmailMessage
 
 
 # Create your views here.
 def say_hello(request):
-    queryset = TaggedItem.objects.get_tags_for(Product, 1)
-    return render(request, "hello.html", {"name": "Piyush", "tags": list(queryset)})
+    try:
+        message = BaseEmailMessage(
+            template_name="emails/hello.html", context={"name": "Bob"}
+        )
+        message.send(["bob@shopsphere.com"])
+    except BadHeaderError:
+        pass
+    return render(request, "hello.html", {"name": "Mosh"})
