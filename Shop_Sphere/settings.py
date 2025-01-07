@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "corsheaders",
     "rest_framework",
     "djoser",
+    "silk",
     "debug_toolbar",
     "playground",
     "store",
@@ -63,6 +64,9 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
+if DEBUG:
+    MIDDLEWARE += ["silk.middleware.SilkyMiddleware"]
 
 ROOT_URLCONF = "Shop_Sphere.urls"
 
@@ -179,5 +183,9 @@ ADMINS = [("Bob", "admin@shopsphere.com")]
 
 CELERY_BROKER_URL = "redis://localhost:6379/1"
 CELERY_BEAT_SCHEDULE = {
-        "notify_customers": {"task": "playground.tasks.notify_customers", "schedule": 5, "args": ["Hello World"]}
+    "notify_customers": {
+        "task": "playground.tasks.notify_customers",
+        "schedule": 5,
+        "args": ["Hello World"],
+    }
 }
