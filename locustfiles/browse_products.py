@@ -24,3 +24,7 @@ class WebsiteUser(HttpUser):
         response = self.client.post("/store/carts/")
         result = response.json()
         self.cart_id = result["id"]
+
+    @task
+    def say_hello(self):
+        self.client.get("/playground/hello/")

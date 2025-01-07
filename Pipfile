@@ -18,6 +18,9 @@ django-templated-mail = "*"
 redis = "*"
 celery = "*"
 flower = "*"
+django-redis = "*"
+whitenoise = "*"
+gunicorn = "*"
 
 [dev-packages]
 pytest = "*"
