@@ -1,7 +1,11 @@
 from .common import *
+import dj_database_url
 import os
 
-DEBUG = False
-SECRET_KEY = os.environ["SECRET_KEY"]
+ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(" ")
 
-ALLOWED_HOSTS = []
+DEBUG = os.environ["DEBUG"]
+
+DATABASES = {"default": dj_database_url.config()}
+
+SECRET_KEY = os.environ.get("SECRET_KEY")
