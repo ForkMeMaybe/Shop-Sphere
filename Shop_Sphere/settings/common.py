@@ -146,11 +146,6 @@ DJOSER = {
     }
 }
 
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST = "localhost"
-EMAIL_HOST_USER = ""
-EMAIL_HOST_PASSWORD = ""
-EMAIL_PORT = 2525
 DEFAULT_FROM_EMAIL = "from@shopshere.com"
 
 ADMINS = [("Bob", "admin@shopsphere.com")]
@@ -161,16 +156,6 @@ CELERY_BEAT_SCHEDULE = {
         "task": "playground.tasks.notify_customers",
         "schedule": 5,
         "args": ["Hello World"],
-    }
-}
-
-CACHES = {
-    "default": {
-        "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://127.0.0.1:6379/2",
-        "OPTIONS": {
-            "CLIENT_CLASS": "django_redis.client.DefaultClient",
-        },
     }
 }
 
