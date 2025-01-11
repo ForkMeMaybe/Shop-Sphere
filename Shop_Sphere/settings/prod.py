@@ -22,6 +22,7 @@ DEBUG = os.environ.get("DEBUG")
 
 print(os.getenv("DJANGO_SETTINGS_MODULE"))
 print("prod.py")
+print(os.getenv("DEBUG"))
 
 DATABASES = {"default": dj_database_url.config()}
 
