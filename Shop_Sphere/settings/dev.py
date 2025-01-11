@@ -25,6 +25,9 @@ DATABASES = {
     }
 }
 
+print(os.getenv("DJANGO_SETTINGS_MODULE"))
+print("dev.py")
+
 if DEBUG:
     MIDDLEWARE += ["silk.middleware.SilkyMiddleware"]
     INSTALLED_APPS += ["debug_toolbar"]
