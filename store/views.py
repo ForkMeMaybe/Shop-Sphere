@@ -3,6 +3,7 @@ from django.http import request
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.views import PermissionDenied
 from rest_framework.viewsets import ModelViewSet, GenericViewSet
 from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.mixins import (
@@ -14,7 +15,7 @@ from rest_framework.decorators import action
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 
 from store.permissions import ViewCustomerHistoryPermission
-from .permissions import IsAdminOrReadOnly
+from .permissions import IsAdminOrReadOnly, IsOwnerOrReadOnly
 from .models import (
     Cart,
     CartItem,
@@ -83,6 +84,14 @@ class CollectionViewSet(ModelViewSet):
 
 class ReviewViewSet(ModelViewSet):
     serializer_class = ReviewSerializer
+    permission_classes = [IsOwnerOrReadOnly]
+
+    def perform_create(self, serializer):
+        if not self.request.user.is_authenticated:
+            # Raise a proper exception if the user is not authenticated
+            raise PermissionDenied("You must be logged in to create a review.")
+        # Save the review with the authenticated user
+        serializer.save(user=self.request.user)
 
     def get_queryset(self):
         return Review.objects.filter(product_id=self.kwargs["product_pk"])

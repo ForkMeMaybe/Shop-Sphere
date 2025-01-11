@@ -18,7 +18,7 @@ CACHES = {
     }
 }
 
-DEBUG = os.environ["DEBUG"]
+DEBUG = os.environ.get("DEBUG")
 
 DATABASES = {"default": dj_database_url.config()}
 
