@@ -27,5 +27,8 @@ DATABASES = {
 
 if DEBUG:
     MIDDLEWARE += ["silk.middleware.SilkyMiddleware"]
+    INSTALLED_APPS += ["debug_toolbar"]
+    MIDDLEWARE += ["debug_toolbar.middleware.DebugToolbarMiddleware"]
+    INTERNAL_IPS = ["127.0.0.1"]
 
 SECRET_KEY = "django-insecure-#cfv0anz362tub&z7&cs3by87pa1l@7d%@3@bylt23!-+89wfn"
