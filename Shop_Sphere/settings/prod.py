@@ -20,10 +20,6 @@ CACHES = {
 
 DEBUG = os.getenv("DEBUG", "False") == "True"
 
-print("prod.py")
-print(os.getenv("DJANGO_SETTINGS_MODULE"))
-print("DEBUG:", DEBUG)
-
 DATABASES = {"default": dj_database_url.config()}
 
 EMAIL_HOST = "localhost"
