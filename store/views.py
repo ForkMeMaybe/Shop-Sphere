@@ -88,13 +88,13 @@ class ReviewViewSet(ModelViewSet):
 
     def perform_create(self, serializer):
         if not self.request.user.is_authenticated:
-            # Raise a proper exception if the user is not authenticated
             raise PermissionDenied("You must be logged in to create a review.")
-        # Save the review with the authenticated user
         serializer.save(user=self.request.user)
 
     def get_queryset(self):
-        return Review.objects.filter(product_id=self.kwargs["product_pk"])
+        return Review.objects.filter(
+            product_id=self.kwargs["product_pk"]
+        ).select_related("user")
 
     def get_serializer_context(self):
         return {"product_id": self.kwargs["product_pk"]}
