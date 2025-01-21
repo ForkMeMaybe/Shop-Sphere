@@ -61,9 +61,12 @@ Follow these steps to get the backend running locally:
 4. **Set Up Environment Variables**
    Create a `.env` file in the root directory and add the following:
    ```env
+   For development purposed just make change in dev.py accordingly and for production set the following:
    SECRET_KEY=your_secret_key_here
-   DEBUG=True
+   DEBUG=your_debug_conf
    DATABASE_URL=your_database_connection_string
+   ALLOWED_HOSTS=allowed_hosts_separated_by_space
+   REDIS_URL=your_redis_url
    ```
 
 5. **Run Migrations**
