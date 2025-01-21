@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib import admin
 from django.conf import settings
-from django.core.validators import MinValueValidator
+from django.core.validators import MinValueValidator, MaxValueValidator
 from uuid import uuid4
 
 from store.validators import validate_file_size
@@ -139,3 +139,7 @@ class Review(models.Model):
     )
     description = models.TextField()
     date = models.DateField(auto_now_add=True)
+    stars = models.PositiveSmallIntegerField(
+        validators=[MinValueValidator(1), MaxValueValidator(5)],
+        help_text="Rate the product between 1 and 5 stars.",
+    )

@@ -32,6 +32,9 @@ model-bakery = "*"
 locust = "*"
 django-silk = "*"
 django-stubs = "*"
+djangorestframework-stubs = "*"
+mypy = "*"
+mypy-django-plugin = "*"
 
 [requires]
 python_version = "3.12"

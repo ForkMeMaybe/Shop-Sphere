@@ -1,8 +1,8 @@
 from rest_framework_nested import routers
+from rest_framework.routers import DefaultRouter
 from . import views
 
-
-router = routers.DefaultRouter()
+router = DefaultRouter()
 router.register("products", views.ProductViewSet)
 router.register("collections", views.CollectionViewSet)
 router.register("carts", views.CartViewSet)
