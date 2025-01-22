@@ -25,8 +25,3 @@ class IsOwnerOrReadOnly(BasePermission):
             return True
         # Write permissions are only allowed to the owner of the review
         return obj.user == request.user
-
-
-class ViewCustomerHistoryPermission(BasePermission):
-    def has_permission(self, request, view):
-        return request.user.has_perm("store.view_history")

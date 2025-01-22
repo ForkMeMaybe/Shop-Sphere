@@ -12,8 +12,6 @@ from rest_framework.mixins import (
 )
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
-
-from store.permissions import ViewCustomerHistoryPermission
 from .permissions import IsAdminOrReadOnly, IsOwnerOrReadOnly
 from .models import (
     Cart,
@@ -183,6 +181,7 @@ class OrderViewSet(ModelViewSet):
 
 class ProductImageViewSet(ModelViewSet):
     serializer_class = ProductImageSerializer
+    permission_classes = [IsAdminOrReadOnly]
 
     def get_queryset(self):
         return ProductImage.objects.filter(product_id=self.kwargs["product_pk"])
