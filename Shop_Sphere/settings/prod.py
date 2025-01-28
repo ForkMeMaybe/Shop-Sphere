@@ -18,7 +18,7 @@ CACHES = {
     }
 }
 
-DEBUG = os.getenv("DEBUG", "False") == "True"
+DEBUG = os.getenv("DEBUG", "False") e if the email_otp variable is correctly populated:== "True"
 
 DATABASES = {"default": dj_database_url.config()}
 

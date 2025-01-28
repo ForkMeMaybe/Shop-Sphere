@@ -7,6 +7,8 @@ from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
 from django.views.decorators.csrf import csrf_exempt
 import json
+from templated_mail.mail import BaseEmailMessage
+from smtplib import SMTPException
 
 
 @csrf_exempt
@@ -31,13 +33,11 @@ def register(request):
         cache.set(redis_key, email_otp)
 
         try:
-            send_mail(
-                "Email Verification OTP",
-                f"Your OTP for email verification is: {email_otp}",
-                settings.EMAIL_HOST_USER,
-                [email],
-                fail_silently=False,
+            message = BaseEmailMessage(
+                template_name="emails/otp_template.html",
+                context={"email_otp": email_otp},
             )
+            message.send([email])
         except (BadHeaderError, SMTPException) as e:
             return JsonResponse(
                 {"success": False, "message": f"Failed to send OTP. Error: {str(e)}"}
