@@ -1,12 +1,19 @@
 from djoser.serializers import (
-    UserCreateSerializer as BaseUserCreateSerializer,
     UserSerializer as BaseUserSerializer,
+    UserCreatePasswordRetypeSerializer as BaseUserCreatePasswordRetypeSerializer,
 )
 
 
-class UserCreateSerializer(BaseUserCreateSerializer):
-    class Meta(BaseUserCreateSerializer.Meta):
-        fields = ["id", "username", "password", "email", "first_name", "last_name"]
+class UserCreateSerializer(BaseUserCreatePasswordRetypeSerializer):
+    class Meta(BaseUserCreatePasswordRetypeSerializer.Meta):
+        fields = [
+            "id",
+            "first_name",
+            "last_name",
+            "email",
+            "username",
+            "password",
+        ]
 
 
 class UserSerializer(BaseUserSerializer):

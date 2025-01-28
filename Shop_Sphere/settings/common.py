@@ -111,6 +111,7 @@ USE_TZ = True
 
 CORS_ALLOWED_ORIGINS = ["http://localhost:8001", "http://127.0.0.1:8001"]
 
+
 STATIC_URL = "static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 MEDIA_URL = "/media/"
@@ -136,10 +137,8 @@ DJOSER = {
     "SERIALIZERS": {
         "user_create": "core.serializers.UserCreateSerializer",
         "current_user": "core.serializers.UserSerializer",
-    }
+    },
 }
-
-DEFAULT_FROM_EMAIL = "from@shopshere.com"
 
 ADMINS = [("Bob", "admin@shopsphere.com")]
 

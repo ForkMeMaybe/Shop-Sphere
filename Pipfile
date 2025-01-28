@@ -23,6 +23,8 @@ whitenoise = "*"
 gunicorn = "*"
 django-silk = "*"
 dj-database-url = "*"
+django-otp = "*"
+pyotp = "*"
 
 [dev-packages]
 pytest = "*"
