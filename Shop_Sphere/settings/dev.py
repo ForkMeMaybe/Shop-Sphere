@@ -24,14 +24,13 @@ DATABASES = {
     }
 }
 
-DEFAULT_FROM_EMAIL = "beast41514@gmail.com"
+DEFAULT_FROM_EMAIL = "from@shop_sphere.com"
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST = "smtp.gmail.com"
-EMAIL_HOST_USER = "beast41514@gmail.com"
-EMAIL_HOST_PASSWORD = "fwee efgl acxw idgs "
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
+EMAIL_HOST = "localhost"
+EMAIL_HOST_USER = ""
+EMAIL_HOST_PASSWORD = ""
+EMAIL_PORT = 2525
 
 if DEBUG:
     MIDDLEWARE += ["silk.middleware.SilkyMiddleware"]
