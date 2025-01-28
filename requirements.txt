@@ -17,15 +17,19 @@ ConfigArgParse==1.7
 cryptography==44.0.0
 defusedxml==0.8.0rc2
 dj-database-url==2.3.0
-Django==5.1.4
+Django==5.1.5
 django-cors-headers==4.6.0
 django-debug-toolbar==4.4.6
 django-filter==24.3
+django-otp==1.5.4
 django-redis==5.4.0
 django-silk==5.3.2
+django-stubs==5.1.2
+django-stubs-ext==5.1.2
 django-templated-mail==1.1.1
 djangorestframework==3.15.2
 djangorestframework-simplejwt==5.3.1
+djangorestframework-stubs==3.15.2
 djoser==2.3.1
 docopt==0.6.2
 drf-nested-routers==0.94.1
@@ -48,6 +52,8 @@ locust==2.32.5
 MarkupSafe==3.0.2
 model-bakery==1.20.1
 msgpack==1.1.0
+mypy==1.14.1
+mypy-extensions==1.0.0
 oauthlib==3.2.2
 packaging==24.2
 pillow==11.0.0
@@ -59,6 +65,7 @@ psycopg==3.2.3
 pycodestyle==2.12.1
 pycparser==2.22
 PyJWT==2.10.1
+pyotp==2.9.0
 pytest==8.3.4
 pytest-django==4.9.0
 pytest-watch==4.2.0
@@ -75,6 +82,8 @@ social-auth-app-django==5.4.2
 social-auth-core==4.5.4
 sqlparse==0.5.3
 tornado==6.4.2
+types-PyYAML==6.0.12.20241230
+types-requests==2.32.0.20241016
 typing_extensions==4.12.2
 tzdata==2024.2
 urllib3==2.2.3

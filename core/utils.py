@@ -1,5 +1,4 @@
 import pyotp
-from datetime import datetime, timedelta
 
 
 def generate_otp():
