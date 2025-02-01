@@ -49,9 +49,11 @@ class ProductSerializer(serializers.ModelSerializer):
             "collection_id",  # _id because without it a query is being sent to the database to fetch collections
             "images",
             "review_count",
+            "average_rating",
         ]
 
     review_count = serializers.IntegerField(read_only=True)
+    average_rating = serializers.FloatField(read_only=True)
 
     price_with_tax = serializers.SerializerMethodField(method_name="calculate_tax")
 

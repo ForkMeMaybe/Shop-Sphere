@@ -1,4 +1,4 @@
-from django.db.models import Count
+from django.db.models import Count, Avg
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.response import Response
 from rest_framework import status
@@ -45,7 +45,7 @@ from .pagination import DefaultPagination
 class ProductViewSet(ModelViewSet):
     queryset = (
         Product.objects.prefetch_related("images")
-        .annotate(review_count=Count("reviews"))
+        .annotate(review_count=Count("reviews"), average_rating=Avg("reviews__stars"))
         .all()
     )
     serializer_class = ProductSerializer

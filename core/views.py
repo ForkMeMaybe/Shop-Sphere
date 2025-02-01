@@ -1,17 +1,21 @@
 from django.http import JsonResponse
+from requests import Response
 from .utils import generate_otp, validate_otp
-from django.core.mail import BadHeaderError, send_mail
-from django.conf import settings
+from django.core.mail import BadHeaderError
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
-from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.csrf import csrf_exempt, ensure_csrf_cookie
 import json
 from templated_mail.mail import BaseEmailMessage
 from smtplib import SMTPException
+from django.shortcuts import render
+from django.middleware.csrf import get_token
+from django.template.loader import render_to_string
+from django.http import HttpResponse
 
 
-@csrf_exempt
+@ensure_csrf_cookie
 def register(request):
     if request.method == "POST":
         # email = request.POST.get("email")
@@ -50,8 +54,9 @@ def register(request):
             }
         )
 
+    return JsonResponse({"message": "CSRF token set."})
 
-@csrf_exempt
+
 def verify_otp(request):
     if request.method == "POST":
         # email = request.POST.get("email")
@@ -78,6 +83,7 @@ def verify_otp(request):
             )
 
         if validate_otp(stored_otp, user_otp):
+            cache.delete(redis_key)
             return JsonResponse(
                 {"success": True, "message": "OTP verified successfully."}
             )
