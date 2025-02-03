@@ -44,6 +44,15 @@ DATABASES = {
         "HOST": "localhost",
     }
 }
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.postgresql",
+#         "NAME": "shop_sphere_database",
+#         "USER": "shop_sphere_database_user",
+#         "PASSWORD": "0QNMCqHmxt74tgr88CKTrrcc9fErx5jw",
+#         "HOST": "dpg-ctvrq2btq21c73airbpg-a.oregon-postgres.render.com",
+#     }
+# }
 
 DEFAULT_FROM_EMAIL = "beast41514@gmail.com"
 
