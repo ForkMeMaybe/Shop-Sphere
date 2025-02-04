@@ -1,4 +1,4 @@
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from requests import Response
 from .utils import generate_otp, validate_otp
 from django.core.mail import BadHeaderError
@@ -74,7 +74,6 @@ def register(request):
 
         email_otp = generate_otp()
         redis_key = f"otp:{email}"
-
         cache.set(redis_key, email_otp)
 
         try:
@@ -95,14 +94,23 @@ def register(request):
             }
         )
 
-    response = JsonResponse({"message": "CSRF token set."})
-
-    # Get the CSRF token
+    # Manually handle CSRF token response
     csrf_token = get_token(request)
 
-    # Manually set the Set-Cookie header with Partitioned attribute
-    response.headers["Set-Cookie"] = (
-        f"csrftoken={csrf_token}; Path=/; Secure; HttpOnly; SameSite=None; Partitioned;"
+    # Create an HttpResponse (not JsonResponse) so you can modify cookies
+    response = HttpResponse(json.dumps({"message": "CSRF token set."}))
+    response["Content-Type"] = "application/json"
+
+    # Set the csrf token cookie with Partitioned and other attributes
+    response.set_cookie(
+        "csrftoken",
+        csrf_token,
+        max_age=3600,  # Optional: Set a specific expiration time
+        path="/",
+        secure=True,  # Ensure it's only sent over HTTPS
+        httponly=True,
+        samesite="None",
+        partitioned=True,  # This is the custom flag you want to add
     )
 
     return response
