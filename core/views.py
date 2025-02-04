@@ -101,17 +101,13 @@ def register(request):
     response = HttpResponse(json.dumps({"message": "CSRF token set."}))
     response["Content-Type"] = "application/json"
 
-    # Set the csrf token cookie with Partitioned and other attributes
-    response.set_cookie(
-        "csrftoken",
-        csrf_token,
-        max_age=3600,  # Optional: Set a specific expiration time
-        path="/",
-        secure=True,  # Ensure it's only sent over HTTPS
-        httponly=True,
-        samesite="None",
-        partitioned=True,  # This is the custom flag you want to add
+    # Manually set the CSRF cookie with Partitioned attribute
+    cookie_header = (
+        f"csrftoken={csrf_token}; Path=/; Secure; HttpOnly; SameSite=None; Partitioned"
     )
+
+    # Add the custom cookie header manually
+    response["Set-Cookie"] = cookie_header
 
     return response
 
