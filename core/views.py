@@ -13,14 +13,54 @@ from django.shortcuts import render
 from django.middleware.csrf import get_token
 from django.template.loader import render_to_string
 from django.http import HttpResponse
+from django.middleware.csrf import get_token
 
 
-@ensure_csrf_cookie
+# @ensure_csrf_cookie
+# def register(request):
+#     if request.method == "POST":
+#         # email = request.POST.get("email")
+#         try:
+#             # Parse the JSON body
+#             data = json.loads(request.body)
+#             email = data.get("email")
+#         except json.JSONDecodeError:
+#             return JsonResponse({"success": False, "message": "Invalid JSON format."})
+#
+#         try:
+#             validate_email(email)
+#         except ValidationError:
+#             return JsonResponse({"success": False, "message": "Invalid email format."})
+#
+#         email_otp = generate_otp()
+#         redis_key = f"otp:{email}"
+#
+#         cache.set(redis_key, email_otp)
+#
+#         try:
+#             message = BaseEmailMessage(
+#                 template_name="emails/otp_template.html",
+#                 context={"email_otp": email_otp},
+#             )
+#             message.send([email])
+#         except (BadHeaderError, SMTPException) as e:
+#             return JsonResponse(
+#                 {"success": False, "message": f"Failed to send OTP. Error: {str(e)}"}
+#             )
+#
+#         return JsonResponse(
+#             {
+#                 "success": True,
+#                 "message": "OTP sent successfully. Please check your email.",
+#             }
+#         )
+#
+#     return JsonResponse({"message": "CSRF token set."})
+
+
 def register(request):
     if request.method == "POST":
-        # email = request.POST.get("email")
         try:
-            # Parse the JSON body
             data = json.loads(request.body)
             email = data.get("email")
         except json.JSONDecodeError:
@@ -33,7 +73,6 @@ def register(request):
 
         email_otp = generate_otp()
         redis_key = f"otp:{email}"
-
         cache.set(redis_key, email_otp)
 
         try:
@@ -54,7 +93,17 @@ def register(request):
             }
         )
 
-    return JsonResponse({"message": "CSRF token set."})
+    response = JsonResponse({"message": "CSRF token set."})
+
+    # Get the CSRF token manually
+    csrf_token = get_token(request)
+
+    # Set the CSRF token cookie with Partitioned attribute
+    response.headers["Set-Cookie"] = (
+        f"csrftoken={csrf_token}; Path=/; Secure; HttpOnly; SameSite=None; Partitioned;"
+    )
+
+    return response
 
 
 def verify_otp(request):
