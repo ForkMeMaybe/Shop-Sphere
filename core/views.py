@@ -58,6 +58,7 @@ from django.middleware.csrf import get_token
 #     return JsonResponse({"message": "CSRF token set."})
 
 
+@ensure_csrf_cookie
 def register(request):
     if request.method == "POST":
         try:
@@ -95,13 +96,17 @@ def register(request):
 
     response = JsonResponse({"message": "CSRF token set."})
 
-    # Get the CSRF token manually
-    csrf_token = get_token(request)
+    # Modify the existing Set-Cookie header for csrftoken
+    set_cookie_headers = response.headers.getlist("Set-Cookie")
 
-    # Set the CSRF token cookie with Partitioned attribute
-    response.headers["Set-Cookie"] = (
-        f"csrftoken={csrf_token}; Path=/; Secure; HttpOnly; SameSite=None; Partitioned;"
-    )
+    new_headers = []
+    for header in set_cookie_headers:
+        if "csrftoken=" in header:
+            new_headers.append(header + "; Partitioned")  # Append Partitioned attribute
+        else:
+            new_headers.append(header)
+
+    response.headers["Set-Cookie"] = new_headers
 
     return response
 
