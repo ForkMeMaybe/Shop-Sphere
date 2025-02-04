@@ -74,6 +74,7 @@ def register(request):
 
         email_otp = generate_otp()
         redis_key = f"otp:{email}"
+
         cache.set(redis_key, email_otp)
 
         try:
@@ -96,12 +97,13 @@ def register(request):
 
     response = JsonResponse({"message": "CSRF token set."})
 
-    # Modify the existing CSRF cookie to add the Partitioned attribute
-    if "csrftoken" in response.cookies:
-        response.cookies["csrftoken"]["samesite"] = "None"
-        response.cookies["csrftoken"]["secure"] = True
-        response.cookies["csrftoken"]["httponly"] = True
-        response.cookies["csrftoken"]["Partitioned"] = True  # Custom attribute addition
+    # Get the CSRF token
+    csrf_token = get_token(request)
+
+    # Manually set the Set-Cookie header with Partitioned attribute
+    response.headers["Set-Cookie"] = (
+        f"csrftoken={csrf_token}; Path=/; Secure; HttpOnly; SameSite=None; Partitioned;"
+    )
 
     return response
 
