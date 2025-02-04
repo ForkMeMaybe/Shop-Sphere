@@ -96,17 +96,12 @@ def register(request):
 
     response = JsonResponse({"message": "CSRF token set."})
 
-    # Modify the existing Set-Cookie header for csrftoken
-    set_cookie_headers = response.headers.getlist("Set-Cookie")
-
-    new_headers = []
-    for header in set_cookie_headers:
-        if "csrftoken=" in header:
-            new_headers.append(header + "; Partitioned")  # Append Partitioned attribute
-        else:
-            new_headers.append(header)
-
-    response.headers["Set-Cookie"] = new_headers
+    # Modify the existing CSRF cookie to add the Partitioned attribute
+    if "csrftoken" in response.cookies:
+        response.cookies["csrftoken"]["samesite"] = "None"
+        response.cookies["csrftoken"]["secure"] = True
+        response.cookies["csrftoken"]["httponly"] = True
+        response.cookies["csrftoken"]["Partitioned"] = True  # Custom attribute addition
 
     return response
 
