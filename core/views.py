@@ -15,7 +15,6 @@ from django.template.loader import render_to_string
 from django.http import HttpResponse
 from django.middleware.csrf import get_token
 
-
 # @ensure_csrf_cookie
 # def register(request):
 #     if request.method == "POST":
@@ -93,14 +92,13 @@ def register(request):
             }
         )
 
-    # ✅ Generate CSRF token
-    # csrf_token = get_token(request)
+    csrf_token = get_token(request)
 
-    # ✅ Create response object
     response = JsonResponse({"message": "CSRF token set."})
 
-    # ✅ Manually set CSRF cookie with "Partitioned" attribute
-    response["Set-Cookie"] = "Path=/; Secure; HttpOnly; SameSite=None; Partitioned"
+    response["Set-Cookie"] = (
+        f"csrftoken={csrf_token}; Path=/; Secure; HttpOnly; SameSite=None; Partitioned"
+    )
 
     return response
 
