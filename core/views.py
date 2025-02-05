@@ -93,20 +93,16 @@ def register(request):
             }
         )
 
-    # Manually handle CSRF token response
+    # ✅ Generate CSRF token
     csrf_token = get_token(request)
 
-    # Create an HttpResponse (not JsonResponse) so you can modify cookies
-    response = HttpResponse(json.dumps({"message": "CSRF token set."}))
-    response["Content-Type"] = "application/json"
+    # ✅ Create response object
+    response = JsonResponse({"message": "CSRF token set."})
 
-    # Manually set the CSRF cookie with Partitioned attribute
-    cookie_header = (
+    # ✅ Manually set CSRF cookie with "Partitioned" attribute
+    response["Set-Cookie"] = (
         f"csrftoken={csrf_token}; Path=/; Secure; HttpOnly; SameSite=None; Partitioned"
     )
-
-    # Add the custom cookie header manually
-    response["Set-Cookie"] = cookie_header
 
     return response
 
