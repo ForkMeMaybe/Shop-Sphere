@@ -56,7 +56,7 @@ from django.middleware.csrf import get_token
 #
 #     return JsonResponse({"message": "CSRF token set."})
 
-
+@ensure_csrf_cookie
 def register(request):
     if request.method == "POST":
         try:
@@ -92,15 +92,16 @@ def register(request):
             }
         )
     elif request.method == "GET":
-        csrf_token = get_token(request)
-
-        response = JsonResponse({"message": "CSRF token set."})
-
-        response["Set-Cookie"] = (
-            f"csrftoken={csrf_token}; Path=/; Secure; HttpOnly; SameSite=None; Partitioned"
-        )
-
-        return response
+        return JsonResponse({"message": "GET request handled"}, status=200)
+    #     csrf_token = get_token(request)
+    #
+    #     response = JsonResponse({"message": "CSRF token set."})
+    #
+    #     response["Set-Cookie"] = (
+    #         f"csrftoken={csrf_token}; Path=/; Secure; HttpOnly; SameSite=None; Partitioned"
+    #     )
+    #
+    #     return response
 
 
 def verify_otp(request):
