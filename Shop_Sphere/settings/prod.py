@@ -6,7 +6,7 @@ ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(" ")
 
 REDIS_URL = os.environ.get("REDIS_URL")
 
-CSRF_TRUSTED_ORIGINS = ["http://127.0.0.1:8001"]
+CSRF_TRUSTED_ORIGINS = ["http://127.0.0.1:8001", "http://localhost:8001"]
 CSRF_COOKIE_SAMESITE = "None"
 CSRF_COOKIE_SECURE = True
 
