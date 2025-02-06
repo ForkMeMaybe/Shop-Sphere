@@ -91,16 +91,16 @@ def register(request):
                 "message": "OTP sent successfully. Please check your email.",
             }
         )
+    elif request.method == "GET":
+        csrf_token = get_token(request)
 
-    csrf_token = get_token(request)
+        response = JsonResponse({"message": "CSRF token set."})
 
-    response = JsonResponse({"message": "CSRF token set."})
+        response["Set-Cookie"] = (
+            f"csrftoken={csrf_token}; Path=/; Secure; HttpOnly; SameSite=None; Partitioned"
+        )
 
-    response["Set-Cookie"] = (
-        f"csrftoken={csrf_token}; Path=/; Secure; HttpOnly; SameSite=None; Partitioned"
-    )
-
-    return response
+        return response
 
 
 def verify_otp(request):
