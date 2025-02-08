@@ -6,8 +6,6 @@ ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
 CSRF_TRUSTED_ORIGINS = [
     "http://127.0.0.1:8001",
     "http://localhost:8001",
-    "http://127.0.0.1:8002",
-    "http://localhost:8002",
 ]
 
 CORS_ALLOW_CREDENTIALS = True
@@ -18,8 +16,8 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:8002",
 ]
 
-CSRF_COOKIE_HTTPONLY = False  # Allows JavaScript to read the CSRF cookie
-CSRF_USE_SESSIONS = False  # Store CSRF token in a cookie, not session
+# CSRF_COOKIE_HTTPONLY = False  # Allows JavaScript to read the CSRF cookie
+# CSRF_USE_SESSIONS = False  # Store CSRF token in a cookie, not session
 
 CELERY_BROKER_URL = "redis://localhost:6379/1"
 
