@@ -9,8 +9,7 @@ REDIS_URL = os.environ.get("REDIS_URL")
 CSRF_TRUSTED_ORIGINS = [
     "http://127.0.0.1:8001",
     "http://localhost:8001",
-    "https://shop-sphere-app.onrender.com",
-    "https://forkmemaybe.github.io/temp/",
+    "https://forkmemaybe.github.io",
 ]
 CSRF_COOKIE_SAMESITE = "None"
 CSRF_COOKIE_SECURE = True
@@ -19,7 +18,7 @@ CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:8001",
     "http://localhost:8001",
-    "https://forkmemaybe.github.io/temp/",
+    "https://forkmemaybe.github.io",
 ]
 
 CELERY_BROKER_URL = REDIS_URL

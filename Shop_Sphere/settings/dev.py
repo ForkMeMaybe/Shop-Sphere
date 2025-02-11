@@ -45,10 +45,10 @@ DATABASES = {
 # DATABASES = {
 #     "default": {
 #         "ENGINE": "django.db.backends.postgresql",
-#         "NAME": "shop_sphere_database",
+#         "NAME": "shop_sphere_database_kajr",
 #         "USER": "shop_sphere_database_user",
-#         "PASSWORD": "0QNMCqHmxt74tgr88CKTrrcc9fErx5jw",
-#         "HOST": "dpg-ctvrq2btq21c73airbpg-a.oregon-postgres.render.com",
+#         "PASSWORD": "usv03gbHe9X0r6tR0dJ99VQfY5RxqWry",
+#         "HOST": "dpg-cujl33qj1k6c73cudsag-a.oregon-postgres.render.com",
 #     }
 # }
 
