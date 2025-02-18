@@ -6,6 +6,7 @@ from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
 from django.views.decorators.csrf import csrf_exempt, ensure_csrf_cookie
+from django.views.decorators.http import require_http_methods
 import json
 from templated_mail.mail import BaseEmailMessage
 from smtplib import SMTPException
@@ -15,49 +16,14 @@ from django.template.loader import render_to_string
 from django.http import HttpResponse
 from django.middleware.csrf import get_token
 
-# @ensure_csrf_cookie
-# def register(request):
-#     if request.method == "POST":
-#         # email = request.POST.get("email")
-#         try:
-#             # Parse the JSON body
-#             data = json.loads(request.body)
-#             email = data.get("email")
-#         except json.JSONDecodeError:
-#             return JsonResponse({"success": False, "message": "Invalid JSON format."})
-#
-#         try:
-#             validate_email(email)
-#         except ValidationError:
-#             return JsonResponse({"success": False, "message": "Invalid email format."})
-#
-#         email_otp = generate_otp()
-#         redis_key = f"otp:{email}"
-#
-#         cache.set(redis_key, email_otp)
-#
-#         try:
-#             message = BaseEmailMessage(
-#                 template_name="emails/otp_template.html",
-#                 context={"email_otp": email_otp},
-#             )
-#             message.send([email])
-#         except (BadHeaderError, SMTPException) as e:
-#             return JsonResponse(
-#                 {"success": False, "message": f"Failed to send OTP. Error: {str(e)}"}
-#             )
-#
-#         return JsonResponse(
-#             {
-#                 "success": True,
-#                 "message": "OTP sent successfully. Please check your email.",
-#             }
-#         )
-#
-#     return JsonResponse({"message": "CSRF token set."})
-
 
 @ensure_csrf_cookie
+@require_http_methods(["GET"])
+def set_csrf_token(request):
+    return JsonResponse({"message": "Set CSRF cookie and header"})
+
+
+# @ensure_csrf_cookie
 def register(request):
     if request.method == "POST":
         try:
@@ -92,10 +58,10 @@ def register(request):
                 "message": "OTP sent successfully. Please check your email.",
             }
         )
-    elif request.method == "GET":
-        response = JsonResponse({"message": "GET request handled"}, status=200)
-        response["X-CSRFToken"] = request.META.get("CSRF_COOKIE", "")
-        return response
+    # elif request.method == "GET":
+    #     response = JsonResponse({"message": "GET request handled"}, status=200)
+    #     response["X-CSRFToken"] = request.META.get("CSRF_COOKIE", "")
+    #     return response
     #     csrf_token = get_token(request)
     #
     #     response = JsonResponse({"message": "CSRF token set."})
