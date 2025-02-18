@@ -27,8 +27,7 @@ def get_csrf_token(request):
     return response
 
 
-# @ensure_csrf_cookie
-def register(request):
+def send_otp(request):
     if request.method == "POST":
         try:
             data = json.loads(request.body)
@@ -62,15 +61,6 @@ def register(request):
                 "message": "OTP sent successfully. Please check your email.",
             }
         )
-    #     csrf_token = get_token(request)
-    #
-    #     response = JsonResponse({"message": "CSRF token set."})
-    #
-    #     response["Set-Cookie"] = (
-    #         f"csrftoken={csrf_token}; Path=/; Secure; HttpOnly; SameSite=None; Partitioned"
-    #     )
-    #
-    #     return response
 
 
 def verify_otp(request):
