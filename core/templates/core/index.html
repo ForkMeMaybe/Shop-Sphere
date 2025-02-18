@@ -1,3 +1,20 @@
+{# {% load static %} #}
+{# <!DOCTYPE html> #}
+{# <html lang="en"> #}
+{# <head> #}
+{#     <meta charset="UTF-8"> #}
+{#     <meta name="viewport" content="width=device-width, initial-scale=1.0"> #}
+{#     <meta http-equiv="X-UA-Compatible" content="IE=edge"> #}
+{#     <title>Document</title> #}
+{#     <link rel="stylesheet" href="{% static 'core/styles.css' %}"> #}
+{# </head> #}
+{# <body> #}
+{#     <div class="home-page"> #}
+{#         <img src="{% static 'core/logo.svg' %}" alt="Logo" class="logo"> #}
+{#     </div> #}
+{# </body> #}
+{# </html> #}
+
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
@@ -5,12 +22,102 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Document</title>
+    <title>API Home</title>
     <link rel="stylesheet" href="{% static 'core/styles.css' %}">
+    <style>
+        /* Centering everything vertically and horizontally */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        .home-page {
+            text-align: center;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            max-width: 150px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            margin-bottom: 15px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        ul li {
+            margin: 10px 0;
+        }
+
+        form {
+            margin-top: 10px;
+        }
+
+        button {
+            padding: 8px 15px;
+            border: none;
+            background-color: #007BFF;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .coming-soon {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #777;
+        }
+    </style>
 </head>
 <body>
     <div class="home-page">
         <img src="{% static 'core/logo.svg' %}" alt="Logo" class="logo">
+        <p class="coming-soon">🚀 Frontend Coming Soon! Stay Tuned! 🎉</p>
+        
+        <h2>Available Endpoints</h2>
+        <ul>
+            <li><a href="/store/products/" target="_blank">View All Products</a></li>
+            <li><a href="/store/collections/" target="_blank">View All Collections</a></li>
+            <li><a href="/store/customers/me/" target="_blank">View My Profile</a></li>
+            <li><a href="/store/customers/orders/" target="_blank">View My Orders</a></li>
+        </ul>
+
+        <h3>Authentication Endpoints</h3>
+        <ul>
+            <li>
+                <form action="/auth/users/" method="GET">
+                    <button type="submit">Create New User</button>
+                </form>
+            </li>
+            <li><a href="/auth/users/me/" target="_blank">Get User Info</a></li>
+        </ul>
+
+        <h3>Create a Cart</h3>
+        <form action="/store/carts/" method="POST">
+            <button type="submit">Create Cart</button>
+        </form>
+
     </div>
 </body>
 </html>
