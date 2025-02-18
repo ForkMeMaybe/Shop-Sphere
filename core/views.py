@@ -19,8 +19,12 @@ from django.middleware.csrf import get_token
 
 @ensure_csrf_cookie
 @require_http_methods(["GET"])
-def set_csrf_token(request):
-    return JsonResponse({"message": "Set CSRF cookie and header"})
+def get_csrf_token(request):
+    response = JsonResponse(
+        {"message": "Placed csrf cookie in response head and cookie"}, status=200
+    )
+    response["X-CSRFToken"] = request.META.get("CSRF_COOKIE", "")
+    return response
 
 
 # @ensure_csrf_cookie
@@ -58,10 +62,6 @@ def register(request):
                 "message": "OTP sent successfully. Please check your email.",
             }
         )
-    # elif request.method == "GET":
-    #     response = JsonResponse({"message": "GET request handled"}, status=200)
-    #     response["X-CSRFToken"] = request.META.get("CSRF_COOKIE", "")
-    #     return response
     #     csrf_token = get_token(request)
     #
     #     response = JsonResponse({"message": "CSRF token set."})
