@@ -42,6 +42,7 @@ DATABASES = {
         "HOST": "localhost",
     }
 }
+
 # DATABASES = {
 #     "default": {
 #         "ENGINE": "django.db.backends.postgresql",
@@ -51,7 +52,6 @@ DATABASES = {
 #         "HOST": "dpg-cujl33qj1k6c73cudsag-a.oregon-postgres.render.com",
 #     }
 # }
-
 DEFAULT_FROM_EMAIL = "beast41514@gmail.com"
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"

@@ -8,8 +8,9 @@ REDIS_URL = os.environ.get("REDIS_URL")
 
 CSRF_TRUSTED_ORIGINS = [
     "http://127.0.0.1:8001",
+    "http://127.0.0.1:5173",
     "http://localhost:8001",
-    "https://forkmemaybe.github.io",
+    "http://localhost:5173",
 ]
 CSRF_COOKIE_SAMESITE = "None"
 CSRF_COOKIE_SECURE = True
@@ -19,8 +20,9 @@ CORS_EXPOSE_HEADERS = os.environ.get("CORS_EXPOSE_HEADERS", "").split(" ")
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:8001",
+    "http://127.0.0.1:5173",
     "http://localhost:8001",
-    "https://forkmemaybe.github.io",
+    "http://localhost:5173",
 ]
 
 CELERY_BROKER_URL = REDIS_URL
