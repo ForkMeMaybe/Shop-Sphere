@@ -26,11 +26,10 @@ class CollectionSerializer(serializers.ModelSerializer):
 class ProductImageSerializer(serializers.ModelSerializer):
     image_file = serializers.ImageField(write_only=True)  # Accept file uploads
     image_data = serializers.SerializerMethodField()  # Return Base64 data
-    image_url = serializers.SerializerMethodField()  # API URL to retrieve image
 
     class Meta:
         model = ProductImage
-        fields = ["id", "image_file", "image_data", "image_url"]
+        fields = ["id", "image_file", "image_data"]
 
     def create(self, validated_data):
         """Handle image upload and store it as BLOB"""
@@ -45,13 +44,6 @@ class ProductImageSerializer(serializers.ModelSerializer):
 
             return f"data:image/jpeg;base64,{base64.b64encode(obj.image_blob).decode('utf-8')}"
         return None
-
-    def get_image_url(self, obj):
-        """Return API endpoint to fetch image"""
-        request = self.context.get("request")
-        return request.build_absolute_uri(
-            f"/api/products/{obj.product.id}/images/{obj.id}/"
-        )
 
 
 class ProductSerializer(serializers.ModelSerializer):
