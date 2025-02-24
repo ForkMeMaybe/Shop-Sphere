@@ -1,5 +1,8 @@
+from typing import Any
 from django.db.models import Count, Avg
+from django.http import HttpResponse
 from django_filters.rest_framework import DjangoFilterBackend
+from requests.sessions import Request
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.views import PermissionDenied
@@ -182,6 +185,10 @@ class OrderViewSet(ModelViewSet):
 class ProductImageViewSet(ModelViewSet):
     serializer_class = ProductImageSerializer
     permission_classes = [IsAdminOrReadOnly]
+
+    def retrieve(self, request: Request, *args: Any, **kwargs: Any) -> Response:
+        image = self.get_object()
+        return HttpResponse(image.image_blob, content_type="image/jpeg")
 
     def get_queryset(self):
         return ProductImage.objects.filter(product_id=self.kwargs["product_pk"])

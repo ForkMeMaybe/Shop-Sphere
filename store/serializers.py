@@ -24,13 +24,18 @@ class CollectionSerializer(serializers.ModelSerializer):
 
 
 class ProductImageSerializer(serializers.ModelSerializer):
+    image_file = serializers.ImageField(write_only=True)
+
     class Meta:
         model = ProductImage
-        fields = ["id", "image"]
+        fields = ["id", "image_file"]
 
     def create(self, validated_data):
-        product_id = self.context["product_id"]
-        return ProductImage.objects.create(product_id=product_id, **validated_data)
+        image_file = validated_data.pop("image_file")
+        validated_data["image_blob"] = image_file.read()  # Store as BLOB
+        return super().create(validated_data)
+        # product_id = self.context["product_id"]
+        # return ProductImage.objects.create(product_id=product_id, **validated_data)
 
 
 class ProductSerializer(serializers.ModelSerializer):

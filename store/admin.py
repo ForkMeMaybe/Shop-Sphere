@@ -3,6 +3,8 @@ from django.contrib.admin.options import urlencode
 from django.db.models import Count
 from django.utils.html import format_html
 from django.urls import reverse
+
+from store.forms import ProductImageForm
 from . import models
 
 
@@ -36,14 +38,42 @@ class InventoryFilter(admin.SimpleListFilter):
             return queryset.filter(inventory__lt=10)
 
 
+# class ProductImageInline(admin.TabularInline):
+#     model = models.ProductImage
+#     readonly_fields = ["thumbnail"]
+#
+#     def thumbnail(self, instance):
+#         # if instance.image.name != "":
+#         #     return format_html(f'<img src="{instance.image.url}" class="thumbnail" />')
+#         # return ""
+#         """Display image stored as BLOB in the admin panel"""
+#         if instance.image_blob:
+#             # Convert binary data to Base64
+#             import base64
+#
+#             image_base64 = base64.b64encode(instance.image_blob).decode("utf-8")
+#             return format_html(
+#                 f'<img src="data:image/jpeg;base64,{image_base64}" class="thumbnail" width="100" height="100"/>'
+#             )
+#         return "No Image"
+
+
 class ProductImageInline(admin.TabularInline):
     model = models.ProductImage
+    form = ProductImageForm  # Use custom form to handle image uploads
+    extra = 1
     readonly_fields = ["thumbnail"]
 
     def thumbnail(self, instance):
-        if instance.image.name != "":
-            return format_html(f'<img src="{instance.image.url}" class="thumbnail" />')
-        return ""
+        """Show a thumbnail preview of the stored image"""
+        if instance.image_blob:
+            import base64
+
+            image_base64 = base64.b64encode(instance.image_blob).decode("utf-8")
+            return format_html(
+                f'<img src="data:image/jpeg;base64,{image_base64}" class="thumbnail" width="100" height="100"/>'
+            )
+        return "No Image"
 
 
 @admin.register(models.Product)
