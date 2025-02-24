@@ -24,18 +24,34 @@ class CollectionSerializer(serializers.ModelSerializer):
 
 
 class ProductImageSerializer(serializers.ModelSerializer):
-    image_file = serializers.ImageField(write_only=True)
+    image_file = serializers.ImageField(write_only=True)  # Accept file uploads
+    image_data = serializers.SerializerMethodField()  # Return Base64 data
+    image_url = serializers.SerializerMethodField()  # API URL to retrieve image
 
     class Meta:
         model = ProductImage
-        fields = ["id", "image_file"]
+        fields = ["id", "image_file", "image_data", "image_url"]
 
     def create(self, validated_data):
+        """Handle image upload and store it as BLOB"""
         image_file = validated_data.pop("image_file")
-        validated_data["image_blob"] = image_file.read()  # Store as BLOB
+        validated_data["image_blob"] = image_file.read()  # Convert image to binary
         return super().create(validated_data)
-        # product_id = self.context["product_id"]
-        # return ProductImage.objects.create(product_id=product_id, **validated_data)
+
+    def get_image_data(self, obj):
+        """Convert binary image data to Base64 string"""
+        if obj.image_blob:
+            import base64
+
+            return f"data:image/jpeg;base64,{base64.b64encode(obj.image_blob).decode('utf-8')}"
+        return None
+
+    def get_image_url(self, obj):
+        """Return API endpoint to fetch image"""
+        request = self.context.get("request")
+        return request.build_absolute_uri(
+            f"/api/products/{obj.product.id}/images/{obj.id}/"
+        )
 
 
 class ProductSerializer(serializers.ModelSerializer):
