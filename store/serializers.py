@@ -165,19 +165,19 @@ class CustomerSerializer(serializers.ModelSerializer):
 
 
 class OrderItemSerializer(serializers.ModelSerializer):
+    product = SimpleProductSerializer()
+
     class Meta:
         model = OrderItem
         fields = ["id", "product", "unit_price", "quantity"]
 
-    product = SimpleProductSerializer()
-
 
 class OrderSerializer(serializers.ModelSerializer):
+    items = OrderItemSerializer(many=True)
+
     class Meta:
         model = Order
         fields = ["id", "placed_at", "payment_status", "items"]
-
-    items = OrderItemSerializer(many=True)
 
 
 class UpdateOrderSerializer(serializers.ModelSerializer):
