@@ -134,8 +134,11 @@ SIMPLE_JWT = {"AUTH_HEADER_TYPES": ("JWT",), "ACCESS_TOKEN_LIFETIME": timedelta(
 
 AUTH_USER_MODEL = "core.User"
 
+SITE_DOMAIN = "shop-sphere-frontend.onrender.com"
+FRONTEND_URL = f"https://{SITE_DOMAIN}"
+
 DJOSER = {
-    "PASSWORD_RESET_CONFIRM_URL": "reset-password-confirm/{uid}/{token}/",
+    "PASSWORD_RESET_CONFIRM_URL": "https://shop-sphere-frontend.onrender.com/reset-password-confirm/{uid}/{token}/",
     "SEND_ACTIVATION_EMAIL": False,
     "SEND_CONFIRMATION_EMAIL": False,
     "PASSWORD_RESET_SHOW_EMAIL_NOT_FOUND": True,
@@ -145,8 +148,6 @@ DJOSER = {
     },
 }
 
-SITE_DOMAIN = "shop-sphere-frontend.onrender.com"
-FRONTEND_URL = f"https://{SITE_DOMAIN}"
 
 ADMINS = [("Bob", "admin@shopsphere.com")]
 
