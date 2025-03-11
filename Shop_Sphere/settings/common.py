@@ -147,9 +147,10 @@ DJOSER = {
         "user_create": "core.serializers.UserCreateSerializer",
         "current_user": "core.serializers.UserSerializer",
     },
-    "DOMAIN": SITE_DOMAIN,  # ✅ Ensure this is set
-    "SITE_NAME": SITE_NAME,
 }
+
+DOMAIN = SITE_DOMAIN  # This tells Django to use the frontend domain
+SITE_NAME = "Shop Sphere"
 
 
 ADMINS = [("Bob", "admin@shopsphere.com")]
