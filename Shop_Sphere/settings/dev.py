@@ -46,10 +46,10 @@ DATABASES = {
 # DATABASES = {
 #     "default": {
 #         "ENGINE": "django.db.backends.postgresql",
-#         "NAME": "shop_sphere_database_kajr",
-#         "USER": "shop_sphere_database_user",
-#         "PASSWORD": "usv03gbHe9X0r6tR0dJ99VQfY5RxqWry",
-#         "HOST": "dpg-cujl33qj1k6c73cudsag-a.oregon-postgres.render.com",
+#         "NAME": "shop_sphere_database_meuh",
+#         "USER": "shop_sphere_database_meuh_user",
+#         "PASSWORD": "3MOZr9BdDEm5AmtBYuHBTzjQS0yy3w4b",
+#         "HOST": "dpg-cv7fd0rtq21c73ap9ts0-a.oregon-postgres.render.com",
 #     }
 # }
 DEFAULT_FROM_EMAIL = "beast41514@gmail.com"
