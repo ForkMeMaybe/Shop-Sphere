@@ -145,6 +145,9 @@ DJOSER = {
     },
 }
 
+SITE_DOMAIN = "shop-sphere-frontend.onrender.com"
+FRONTEND_URL = f"https://{SITE_DOMAIN}"
+
 ADMINS = [("Bob", "admin@shopsphere.com")]
 
 CELERY_BROKER_URL = "redis://localhost:6379/1"
