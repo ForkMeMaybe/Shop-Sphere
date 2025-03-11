@@ -135,7 +135,7 @@ SIMPLE_JWT = {"AUTH_HEADER_TYPES": ("JWT",), "ACCESS_TOKEN_LIFETIME": timedelta(
 AUTH_USER_MODEL = "core.User"
 
 DJOSER = {
-    "PASSWORD_RESET_CONFIRM_URL": "password-reset-confirm/{uid}/{token}/",
+    "PASSWORD_RESET_CONFIRM_URL": "reset-password-confirm/{uid}/{token}/",
     "SEND_ACTIVATION_EMAIL": False,
     "SEND_CONFIRMATION_EMAIL": False,
     "PASSWORD_RESET_SHOW_EMAIL_NOT_FOUND": True,
