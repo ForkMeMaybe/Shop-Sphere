@@ -5,3 +5,4 @@ general.log
 mypy.ini
 core/templates/core/register.html
 core/templates/core/verify_otp.html
+/Shop_Sphere/settings/dev.py

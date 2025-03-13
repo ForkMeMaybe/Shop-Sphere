@@ -134,9 +134,6 @@ SIMPLE_JWT = {"AUTH_HEADER_TYPES": ("JWT",), "ACCESS_TOKEN_LIFETIME": timedelta(
 
 AUTH_USER_MODEL = "core.User"
 
-SITE_DOMAIN = "shop-sphere-frontend.onrender.com"
-SITE_NAME = "Shop Sphere"
-FRONTEND_URL = f"https://{SITE_DOMAIN}"
 
 DJOSER = {
     "PASSWORD_RESET_CONFIRM_URL": "reset-password-confirm/{uid}/{token}/",
@@ -149,6 +146,7 @@ DJOSER = {
     },
 }
 
+SITE_DOMAIN = "shop-sphere-frontend.onrender.com"
 DOMAIN = SITE_DOMAIN  # This tells Django to use the frontend domain
 SITE_NAME = "Shop Sphere"
 
