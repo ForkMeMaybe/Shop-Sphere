@@ -78,7 +78,7 @@ class PaymentView(GenericAPIView):
                     "razorpay_merchant_key": settings.RAZOR_KEY_ID,
                     "razorpay_amount": amount,
                     "currency": currency,
-                    "callback_url": "/paymenthandler/",
+                    "callback_url": "/payments-handler/",
                 }
             )
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
