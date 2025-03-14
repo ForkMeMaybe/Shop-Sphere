@@ -108,13 +108,54 @@ class PaymentView(GenericAPIView):
     #     )
 
 
-@method_decorator(csrf_exempt, name="dispatch")
+# @method_decorator(csrf_exempt, name="dispatch")
+# class PaymentHandlerView(APIView):
+#     def post(self, request):
+#         try:
+#             payment_id = request.POST.get("razorpay_payment_id", "")
+#             razorpay_order_id = request.POST.get("razorpay_order_id", "")
+#             signature = request.POST.get("razorpay_signature", "")
+#
+#             params_dict = {
+#                 "razorpay_order_id": razorpay_order_id,
+#                 "razorpay_payment_id": payment_id,
+#                 "razorpay_signature": signature,
+#             }
+#
+#             result = razorpay_client.utility.verify_payment_signature(params_dict)
+#             if result:
+#                 try:
+#                     razorpay_client.payment.capture(payment_id, 20000)
+#                     return Response({"message": "Payment successful"})
+#                 except:
+#                     return Response(
+#                         {"error": "Error capturing payment"},
+#                         status=status.HTTP_400_BAD_REQUEST,
+#                     )
+#             else:
+#                 return Response(
+#                     {"error": "Invalid payment signature"},
+#                     status=status.HTTP_400_BAD_REQUEST,
+#                 )
+#         except:
+#             return HttpResponseBadRequest()
+
+
 class PaymentHandlerView(APIView):
+    @csrf_exempt  # ✅ Ensures CSRF does not block the request
     def post(self, request):
         try:
-            payment_id = request.POST.get("razorpay_payment_id", "")
-            razorpay_order_id = request.POST.get("razorpay_order_id", "")
-            signature = request.POST.get("razorpay_signature", "")
+            # ✅ Use `request.data` instead of `request.POST`
+            payment_id = request.data.get("razorpay_payment_id", "")
+            razorpay_order_id = request.data.get("razorpay_order_id", "")
+            signature = request.data.get("razorpay_signature", "")
+
+            # ✅ Validate required fields
+            if not payment_id or not razorpay_order_id or not signature:
+                return Response(
+                    {"error": "Missing required payment details"},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
 
             params_dict = {
                 "razorpay_order_id": razorpay_order_id,
@@ -122,9 +163,11 @@ class PaymentHandlerView(APIView):
                 "razorpay_signature": signature,
             }
 
+            # ✅ Verify payment signature
             result = razorpay_client.utility.verify_payment_signature(params_dict)
             if result:
                 try:
+                    # ✅ Capture the payment
                     razorpay_client.payment.capture(payment_id, 20000)
                     return Response({"message": "Payment successful"})
                 except:
@@ -137,8 +180,11 @@ class PaymentHandlerView(APIView):
                     {"error": "Invalid payment signature"},
                     status=status.HTTP_400_BAD_REQUEST,
                 )
-        except:
-            return HttpResponseBadRequest()
+        except Exception as e:
+            return Response(
+                {"error": f"Server error: {str(e)}"},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )
 
 
 class ProductViewSet(ModelViewSet):
