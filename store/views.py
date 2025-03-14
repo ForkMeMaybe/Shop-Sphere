@@ -1,3 +1,9 @@
+from rest_framework.views import APIView
+import razorpay
+from django.conf import settings
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
+from django.http import HttpResponseBadRequest
 from typing import Any
 from django.db.models import Count, Avg
 from django.http import HttpResponse
@@ -40,9 +46,99 @@ from .serializers import (
     ReviewSerializer,
     UpdateCartItemSerializer,
     UpdateOrderSerializer,
+    PaymentSerializer,
 )
 from .filters import ProductFilter
+from rest_framework.generics import GenericAPIView
 from .pagination import DefaultPagination
+
+razorpay_client = razorpay.Client(
+    auth=(settings.RAZOR_KEY_ID, settings.RAZOR_KEY_SECRET)
+)
+
+
+class PaymentView(GenericAPIView):
+    serializer_class = PaymentSerializer
+
+    def post(self, request):
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid():
+            currency = "INR"
+            amount = (
+                serializer.validated_data["amount"] * 100
+            )  # Razorpay expects amount in paise
+
+            razorpay_order = razorpay_client.order.create(
+                dict(amount=amount, currency=currency, payment_capture="0")
+            )
+
+            return Response(
+                {
+                    "razorpay_order_id": razorpay_order["id"],
+                    "razorpay_merchant_key": settings.RAZOR_KEY_ID,
+                    "razorpay_amount": amount,
+                    "currency": currency,
+                    "callback_url": "/paymenthandler/",
+                }
+            )
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    # def post(self, request):
+    #     currency = "INR"
+    #     amount = request.data.get("amount")  # Get amount from frontend
+    #
+    #     if not amount:
+    #         return Response({"error": "Amount is required"}, status=400)
+    #
+    #     razorpay_order = razorpay_client.order.create(
+    #         dict(amount=amount, currency=currency, payment_capture="0")
+    #     )
+    #
+    #     razorpay_order_id = razorpay_order["id"]
+    #     callback_url = "/paymenthandler/"
+    #
+    #     return Response(
+    #         {
+    #             "razorpay_order_id": razorpay_order_id,
+    #             "razorpay_merchant_key": settings.RAZOR_KEY_ID,
+    #             "razorpay_amount": amount,
+    #             "currency": currency,
+    #             "callback_url": callback_url,
+    #         }
+    #     )
+
+
+@method_decorator(csrf_exempt, name="dispatch")
+class PaymentHandlerView(APIView):
+    def post(self, request):
+        try:
+            payment_id = request.POST.get("razorpay_payment_id", "")
+            razorpay_order_id = request.POST.get("razorpay_order_id", "")
+            signature = request.POST.get("razorpay_signature", "")
+
+            params_dict = {
+                "razorpay_order_id": razorpay_order_id,
+                "razorpay_payment_id": payment_id,
+                "razorpay_signature": signature,
+            }
+
+            result = razorpay_client.utility.verify_payment_signature(params_dict)
+            if result:
+                try:
+                    razorpay_client.payment.capture(payment_id, 20000)
+                    return Response({"message": "Payment successful"})
+                except:
+                    return Response(
+                        {"error": "Error capturing payment"},
+                        status=status.HTTP_400_BAD_REQUEST,
+                    )
+            else:
+                return Response(
+                    {"error": "Invalid payment signature"},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+        except:
+            return HttpResponseBadRequest()
 
 
 class ProductViewSet(ModelViewSet):

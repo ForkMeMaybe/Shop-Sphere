@@ -25,6 +25,7 @@ django-silk = "*"
 dj-database-url = "*"
 django-otp = "*"
 pyotp = "*"
+razorpay = "*"
 
 [dev-packages]
 pytest = "*"

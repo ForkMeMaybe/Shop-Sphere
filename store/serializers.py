@@ -15,6 +15,10 @@ from .models import (
 from .signals import order_created
 
 
+class PaymentSerializer(serializers.Serializer):
+    amount = serializers.IntegerField(min_value=1)
+
+
 class CollectionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Collection

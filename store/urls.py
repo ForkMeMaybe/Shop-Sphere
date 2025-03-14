@@ -1,3 +1,4 @@
+from django.urls import path
 from rest_framework_nested import routers
 from rest_framework.routers import DefaultRouter
 from . import views
@@ -17,4 +18,16 @@ products_router.register("images", views.ProductImageViewSet, basename="product-
 carts_router = routers.NestedDefaultRouter(router, "carts", lookup="cart")
 carts_router.register("items", views.CartItemViewSet, basename="cart-items")
 
-urlpatterns = router.urls + products_router.urls + carts_router.urls
+urlpatterns = (
+    router.urls
+    + products_router.urls
+    + carts_router.urls
+    + [path("payments/", views.PaymentView.as_view(), name="payment")]
+    + [
+        path(
+            "payments-handler/",
+            views.PaymentHandlerView.as_view(),
+            name="payment-handler",
+        )
+    ]
+)
