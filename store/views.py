@@ -141,8 +141,8 @@ class PaymentView(GenericAPIView):
 #             return HttpResponseBadRequest()
 
 
+@method_decorator(csrf_exempt, name="dispatch")
 class PaymentHandlerView(APIView):
-    @csrf_exempt  # ✅ Ensures CSRF does not block the request
     def post(self, request):
         try:
             # ✅ Use `request.data` instead of `request.POST`
@@ -167,8 +167,12 @@ class PaymentHandlerView(APIView):
             result = razorpay_client.utility.verify_payment_signature(params_dict)
             if result:
                 try:
+                    # 🔥 Fetch the correct amount from the order Razorpay object
+                    order = razorpay_client.order.fetch(razorpay_order_id)
+                    amount = order["amount"]  # ✅ Use the exact amount from the order
+
                     # ✅ Capture the payment
-                    razorpay_client.payment.capture(payment_id, 20000)
+                    razorpay_client.payment.capture(payment_id, amount)
                     return Response({"message": "Payment successful"})
                 except:
                     return Response(
