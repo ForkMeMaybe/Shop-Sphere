@@ -192,6 +192,9 @@ class UpdateOrderSerializer(serializers.ModelSerializer):
 
 class CreateOrderSerializer(serializers.Serializer):
     cart_id = serializers.UUIDField()
+    payment_status = serializers.ChoiceField(
+        choices=Order.PAYMENT_STATUS_CHOICES, default=Order.PAYMENT_STATUS_PENDING
+    )
 
     def validate_cart_id(self, cart_id):
         if not Cart.objects.filter(pk=cart_id).exists():
@@ -204,7 +207,12 @@ class CreateOrderSerializer(serializers.Serializer):
         with transaction.atomic():
             cart_id = self.validated_data["cart_id"]
             customer = Customer.objects.get(user_id=self.context["user_id"])
-            order = Order.objects.create(customer=customer)
+            payment_status = self.validated_data.get(
+                "payment_status", Order.PAYMENT_STATUS_PENDING
+            )
+            order = Order.objects.create(
+                customer=customer, payment_status=payment_status
+            )
 
             cart_items = CartItem.objects.select_related("product").filter(
                 cart_id=cart_id
