@@ -127,18 +127,20 @@ class CartItem(models.Model):
 
 
 class Address(models.Model):
+    ADDRESS_TYPE_HOME = "H"
+    ADDRESS_TYPE_WORK = "W"
     ADDRESS_TYPE_CHOICES = [
-        ("billing", "Billing"),
-        ("shipping", "Shipping"),
+        (ADDRESS_TYPE_HOME, "Home"),
+        (ADDRESS_TYPE_WORK, "Work"),
     ]
 
     street = models.CharField(max_length=255)
     city = models.CharField(max_length=255)
-    state = models.CharField(max_length=255)  # ✅ Added state field
-    country = models.CharField(max_length=100, default="India")  # ✅ Default to India
+    state = models.CharField(max_length=255)
+    country = models.CharField(max_length=100, default="India")
     postal_code = models.CharField(max_length=20)
     address_type = models.CharField(
-        max_length=10, choices=ADDRESS_TYPE_CHOICES, default="shipping"
+        max_length=10, choices=ADDRESS_TYPE_CHOICES, default=ADDRESS_TYPE_HOME
     )
     is_default = models.BooleanField(default=False)
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
