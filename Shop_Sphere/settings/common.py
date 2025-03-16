@@ -151,7 +151,7 @@ DOMAIN = SITE_DOMAIN  # This tells Django to use the frontend domain
 SITE_NAME = "Shop Sphere"
 
 
-ADMINS = [("Bob", "admin@shopsphere.com")]
+ADMINS = [("Famous TV", "beast41514@gmail.com")]
 
 CELERY_BROKER_URL = "redis://localhost:6379/1"
 CELERY_BEAT_SCHEDULE = {
