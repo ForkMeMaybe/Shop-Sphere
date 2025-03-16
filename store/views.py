@@ -32,6 +32,7 @@ from .models import (
     OrderItem,
     ProductImage,
     Review,
+    Address,
 )
 from .serializers import (
     AddCartItemSerializer,
@@ -47,6 +48,7 @@ from .serializers import (
     UpdateCartItemSerializer,
     UpdateOrderSerializer,
     PaymentSerializer,
+    AddressSerializer,
 )
 from .filters import ProductFilter
 from rest_framework.generics import GenericAPIView
@@ -292,6 +294,21 @@ class CustomerViewSet(ModelViewSet):
             serializer.is_valid(raise_exception=True)
             serializer.save()
             return Response(serializer.data)
+
+
+class AddressViewSet(ModelViewSet):
+    http_method_names = ["get", "post", "patch", "delete", "head", "options"]
+    serializer_class = AddressSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        user = self.request.user
+
+        if user.is_staff:
+            return Address.objects.all()
+
+        customer_id = Customer.objects.only("id").get(user_id=user.id)
+        return Address.objects.filter(customer_id=customer_id)
 
 
 class OrderViewSet(ModelViewSet):

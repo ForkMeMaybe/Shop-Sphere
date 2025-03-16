@@ -11,6 +11,7 @@ from .models import (
     ProductImage,
     Review,
     Cart,
+    Address,
 )
 from .signals import order_created
 
@@ -168,6 +169,22 @@ class CustomerSerializer(serializers.ModelSerializer):
         fields = ["id", "phone", "birth_date", "membership"]
 
 
+class AddressSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Address
+        fields = [
+            "id",
+            "street",
+            "city",
+            "state",
+            "country",
+            "postal_code",
+            "address_type",
+            "is_default",
+            "customer",
+        ]
+
+
 class OrderItemSerializer(serializers.ModelSerializer):
     product = SimpleProductSerializer()
 
@@ -217,15 +234,35 @@ class CreateOrderSerializer(serializers.Serializer):
             cart_items = CartItem.objects.select_related("product").filter(
                 cart_id=cart_id
             )
-            order_items = [
-                OrderItem(
-                    order=order,
-                    product=item.product,
-                    unit_price=item.product.unit_price,
-                    quantity=item.quantity,
+
+            order_items = []
+            for item in cart_items:
+                # ✅ Reduce product inventory
+                item.product.inventory -= item.quantity
+                if item.product.inventory < 0:
+                    raise serializers.ValidationError(
+                        f"Not enough inventory for {item.product.title}"
+                    )
+                item.product.save()
+
+                order_items.append(
+                    OrderItem(
+                        order=order,
+                        product=item.product,
+                        unit_price=item.product.unit_price,
+                        quantity=item.quantity,
+                    )
                 )
-                for item in cart_items
-            ]
+
+            # order_items = [
+            #     OrderItem(
+            #         order=order,
+            #         product=item.product,
+            #         unit_price=item.product.unit_price,
+            #         quantity=item.quantity,
+            #     )
+            #     for item in cart_items
+            # ]
 
             OrderItem.objects.bulk_create(order_items)
             Cart.objects.filter(pk=cart_id).delete()

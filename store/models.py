@@ -127,9 +127,24 @@ class CartItem(models.Model):
 
 
 class Address(models.Model):
+    ADDRESS_TYPE_CHOICES = [
+        ("billing", "Billing"),
+        ("shipping", "Shipping"),
+    ]
+
     street = models.CharField(max_length=255)
     city = models.CharField(max_length=255)
+    state = models.CharField(max_length=255)  # ✅ Added state field
+    country = models.CharField(max_length=100, default="India")  # ✅ Default to India
+    postal_code = models.CharField(max_length=20)
+    address_type = models.CharField(
+        max_length=10, choices=ADDRESS_TYPE_CHOICES, default="shipping"
+    )
+    is_default = models.BooleanField(default=False)
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.street}, {self.city}, {self.state}, {self.country} ({self.address_type})"
 
 
 class Review(models.Model):
