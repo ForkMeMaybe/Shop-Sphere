@@ -1,0 +1,72 @@
+{% block subject %}
+    Special Discount Just for You!
+{% endblock %}
+
+{% block html_body %}
+<html>
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #4CAF50;
+        }
+        .discount {
+            font-size: 20px;
+            font-weight: bold;
+            color: #4CAF50;
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 4px;
+            display: inline-block;
+        }
+        .product-list {
+            margin: 15px 0;
+            padding: 10px;
+            background: #f9f9f9;
+            border-radius: 5px;
+        }
+        .footer {
+            margin-top: 20px;
+            font-size: 12px;
+            color: #888;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Exclusive Discount for You!</h1>
+        <p>Hey {{ lead.name }},</p>
+        <p>We noticed you left some items in your cart:</p>
+
+        <div class="product-list">
+            <!-- {% for product in products %} -->
+            <!--     <p>🛒 {{ product.title }}</p> -->
+            <!-- {% endfor %} -->
+            <p>{{ product_titles }}</p>
+        </div>
+
+        <p>To make your shopping even better, we're giving you a <span class="discount">10% OFF</span> on these items! Complete your purchase now before the offer expires.</p>
+
+        <div class="footer">
+            <p>&copy; 2025 Shop-Sphere. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+</html>
+{% endblock %}
+

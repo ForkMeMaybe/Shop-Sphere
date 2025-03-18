@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 from datetime import timedelta
 from pathlib import Path
 import os
+from celery.schedules import crontab
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
@@ -155,13 +156,12 @@ SITE_NAME = "Shop Sphere"
 ADMINS = [("Famous TV", "piyushch6395@gmail.com")]
 
 CELERY_BROKER_URL = "redis://localhost:6379/1"
-CELERY_BEAT_SCHEDULE = {
-    "notify_customers": {
-        "task": "playground.tasks.notify_customers",
-        "schedule": 5,
-        "args": ["Hello World"],
-    }
-}
+# CELERY_BEAT_SCHEDULE = {
+#     "process_leads_for_marketing": {
+#         "task": "lead.tasks.process_leads_for_marketing",
+#         crontab(hour=19, minute=0),
+#     }
+# }
 
 LOGGING = {
     "version": 1,

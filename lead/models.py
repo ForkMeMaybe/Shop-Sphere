@@ -1,9 +1,10 @@
 from django.db import models
+from store.models import Product
 
 
 # Create your models here.
 class Lead(models.Model):
-    email = models.EmailField(unique=True)
+    email = models.EmailField()
     name = models.CharField(max_length=255)
     phone = models.CharField(max_length=20, blank=True, null=True)
     source = models.CharField(
@@ -17,6 +18,7 @@ class Lead(models.Model):
     )
     created_at = models.DateTimeField(auto_now_add=True)
     score = models.FloatField(default=0.0)
+    products = models.ManyToManyField(Product, blank=True)
 
     def __str__(self):
         return self.name
