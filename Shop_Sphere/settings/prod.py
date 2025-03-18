@@ -30,12 +30,12 @@ CORS_ALLOWED_ORIGINS = [
     "https://shop-sphere-frontend.onrender.com",
 ]
 
-CELERY_BROKER_URL = REDIS_URL
+CELERY_BROKER_URL = f"{REDIS_URL}/1"
 
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": REDIS_URL,
+        "LOCATION": f"{REDIS_URL}/2",
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
         },

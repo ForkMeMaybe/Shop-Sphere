@@ -30,6 +30,7 @@ flower==2.0.1; python_version >= '3.7'
 fuzzywuzzy==0.18.0
 gprof2dot==2024.6.6; python_version >= '3.8'
 gunicorn==23.0.0; python_version >= '3.7'
+honcho==2.0.0
 humanize==4.11.0; python_version >= '3.9'
 idna==3.10; python_version >= '3.6'
 joblib==1.4.2; python_version >= '3.8'
