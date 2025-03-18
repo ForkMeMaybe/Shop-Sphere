@@ -4,7 +4,7 @@ from fuzzywuzzy import fuzz
 
 from .models import Lead
 from .serializers import LeadSerializer
-from .utils import predict_lead_score  # Assuming you have this function
+from .ml import predict_lead_score  # Assuming you have this function
 
 
 class LeadViewSet(viewsets.ModelViewSet):
@@ -35,16 +35,16 @@ class LeadViewSet(viewsets.ModelViewSet):
             )
 
         # Check for similar names using fuzzy matching
-        for existing_lead in Lead.objects.all():
-            name_similarity = fuzz.ratio(name, existing_lead.name.lower())
-            email_similarity = fuzz.ratio(email, existing_lead.email.lower())
-            if name_similarity > 85 or email_similarity > 85:  # Threshold = 85
-                return Response(
-                    {
-                        "message": "Duplicate lead detected based on name or email similarity."
-                    },
-                    status=status.HTTP_400_BAD_REQUEST,
-                )
+        # for existing_lead in Lead.objects.all():
+        #     name_similarity = fuzz.ratio(name, existing_lead.name.lower())
+        #     email_similarity = fuzz.ratio(email, existing_lead.email.lower())
+        #     if name_similarity > 85 or email_similarity > 85:  # Threshold = 85
+        #         return Response(
+        #             {
+        #                 "message": "Duplicate lead detected based on name or email similarity."
+        #             },
+        #             status=status.HTTP_400_BAD_REQUEST,
+        #         )
 
         # Predict lead score for new lead
         lead_score = predict_lead_score(engagement_level)
