@@ -26,6 +26,10 @@ dj-database-url = "*"
 django-otp = "*"
 pyotp = "*"
 razorpay = "*"
+requests = "*"
+scikit-learn = "*"
+textblob = "*"
+fuzzywuzzy = "*"
 
 [dev-packages]
 pytest = "*"

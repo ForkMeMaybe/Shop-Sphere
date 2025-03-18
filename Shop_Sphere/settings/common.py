@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     "silk",
     "playground",
     "store",
+    "lead",
     "tags",
     "likes",
     "core",

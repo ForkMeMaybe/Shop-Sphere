@@ -27,6 +27,7 @@ class Collection(models.Model):
 
 
 class Product(models.Model):
+    brand = models.CharField(max_length=255, null=True, blank=True)
     title = models.CharField(max_length=255)
     slug = models.SlugField()
     description = models.TextField()
