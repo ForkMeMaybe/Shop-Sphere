@@ -30,7 +30,6 @@ requests = "*"
 scikit-learn = "*"
 textblob = "*"
 fuzzywuzzy = "*"
-honcho = "*"
 
 [dev-packages]
 pytest = "*"
