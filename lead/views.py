@@ -16,18 +16,7 @@ class LeadViewSet(viewsets.ModelViewSet):
         name = data.get("name", "").strip().lower()
         email = data.get("email", "").strip().lower()
         message = data.get("message", "")
-        engagement_str = data.get("engagement_level", "").strip().lower()
-
-        # Map string values to their corresponding integer levels
-        engagement_mapping = {
-            "visit": 0,
-            "search": 1,
-            "add to cart": 2,
-            "payment page": 3,
-        }
-
-        # Get the integer engagement level from the mapping (default to 0 if not found)
-        engagement_level = engagement_mapping.get(engagement_str, 0)
+        engagement_level = data.get("engagement_level", 0)
 
         # Check if the lead already exists (exact email match)
         if Lead.objects.filter(email=email).exists():
