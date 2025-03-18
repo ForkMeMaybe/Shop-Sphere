@@ -17,25 +17,25 @@ class LeadViewSet(viewsets.ModelViewSet):
         email = data.get("email", "").strip().lower()
         message = data.get("message", "")
         engagement_level = data.get("engagement_level", 0)
-
-        # Check if the lead already exists (exact email match)
-        if Lead.objects.filter(email=email).exists():
-            return Response(
-                {"message": "Lead with this email already exists."},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
-
-        # Check for similar names using fuzzy matching
-        for lead in Lead.objects.all():
-            name_similarity = fuzz.ratio(name, lead.name.lower())
-            email_similarity = fuzz.ratio(email, lead.email.lower())
-            if name_similarity > 85 or email_similarity > 85:  # Threshold = 85
-                return Response(
-                    {
-                        "message": "Duplicate lead detected based on name or email similarity."
-                    },
-                    status=status.HTTP_400_BAD_REQUEST,
-                )
+        #
+        # # Check if the lead already exists (exact email match)
+        # if Lead.objects.filter(email=email).exists():
+        #     return Response(
+        #         {"message": "Lead with this email already exists."},
+        #         status=status.HTTP_400_BAD_REQUEST,
+        #     )
+        #
+        # # Check for similar names using fuzzy matching
+        # for lead in Lead.objects.all():
+        #     name_similarity = fuzz.ratio(name, lead.name.lower())
+        #     email_similarity = fuzz.ratio(email, lead.email.lower())
+        #     if name_similarity > 85 or email_similarity > 85:  # Threshold = 85
+        #         return Response(
+        #             {
+        #                 "message": "Duplicate lead detected based on name or email similarity."
+        #             },
+        #             status=status.HTTP_400_BAD_REQUEST,
+        #         )
 
         # Predict lead score based on engagement level
         lead_score = predict_lead_score(engagement_level)
