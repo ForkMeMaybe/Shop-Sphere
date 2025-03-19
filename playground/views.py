@@ -20,5 +20,6 @@ logger = logging.getLogger(__name__)
 
 
 def hello(request):
-    process_leads_for_marketing.delay()
+    # process_leads_for_marketing.delay()
+    process_leads_for_marketing()
     return render(request, "hello.html", {"name": "mosh"})

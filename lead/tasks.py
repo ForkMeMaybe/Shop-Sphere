@@ -8,7 +8,7 @@ from templated_mail.mail import BaseEmailMessage
 from decimal import Decimal
 
 
-@shared_task
+# @shared_task
 def process_leads_for_marketing():
     """
     Fetch leads, send relevant emails, and delete followed leads.
