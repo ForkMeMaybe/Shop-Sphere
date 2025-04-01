@@ -5,13 +5,15 @@ Welcome to the backend of Shop-Sphere, a robust e-commerce application designed 
 ## 🚀 Hosted At
 
 Access the live application backend at: [https://shop-sphere-app.onrender.com/](https://shop-sphere-app.onrender.com/)
+Access the live application frontend at: [https://shop-sphere-frontend.onrender.com//](https://shop-sphere-frontend.onrender.com//)
 
 ---
 
 ## 🛠️ Features
 
+- **Razorpay**: Razorpay integration for online payments.
 - **Product Management**: APIs to manage product listings, categories, and inventory.
-- **User Authentication**: Secure user login and registration functionality.
+- **User Authentication**: Secure user login, registration and password reset functionality.
 - **Order Management**: Handle cart, orders.
 - **Admin Dashboard**: Manage users, products, and orders efficiently.
 - **Scalable Architecture**: Designed for performance and scalability.
