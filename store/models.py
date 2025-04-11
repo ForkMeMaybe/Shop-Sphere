@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.conf import settings
 from django.core.validators import MinValueValidator, MaxValueValidator
 from uuid import uuid4
-
+from decimal import Decimal
 from store.validators import validate_file_size
 
 
@@ -31,9 +31,9 @@ class Product(models.Model):
     slug = models.SlugField()
     description = models.TextField()
     unit_price = models.DecimalField(
-        max_digits=8, decimal_places=2, validators=[MinValueValidator(1)]
+        max_digits=8, decimal_places=2, validators=[MinValueValidator(Decimal('1.00'))]
     )
-    inventory = models.IntegerField(validators=[MinValueValidator(1)])
+    inventory = models.IntegerField(validators=[MinValueValidator(Decimal('1.00'))])
     last_update = models.DateTimeField(auto_now=True)
     collection = models.ForeignKey(
         Collection, on_delete=models.PROTECT, related_name="products"
