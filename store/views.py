@@ -197,7 +197,7 @@ class ProductViewSet(ModelViewSet):
     queryset = (
         Product.objects.prefetch_related("images")
         .annotate(review_count=Count("reviews"), average_rating=Avg("reviews__stars"))
-        .all().order_by('-id')
+        .all()
     )
     serializer_class = ProductSerializer
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]

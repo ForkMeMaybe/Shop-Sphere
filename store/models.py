@@ -42,8 +42,6 @@ class Product(models.Model):
 
     def __str__(self) -> str:
         return self.title
-    class Meta:
-        ordering = ['-id']
 
 
 class ProductImage(models.Model):
