@@ -27,6 +27,7 @@ def get_csrf_token(request):
     return response
 
 
+@csrf_exempt
 def send_otp(request):
     if request.method == "POST":
         try:
@@ -63,6 +64,7 @@ def send_otp(request):
         )
 
 
+@csrf_exempt
 def verify_otp(request):
     if request.method == "POST":
         # email = request.POST.get("email")

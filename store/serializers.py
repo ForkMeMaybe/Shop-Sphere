@@ -17,7 +17,12 @@ from .signals import order_created
 
 
 class PaymentSerializer(serializers.Serializer):
-    amount = serializers.IntegerField(min_value=1)
+    cart_id = serializers.UUIDField()
+
+    def validate_cart_id(self, value):
+        if not Cart.objects.filter(id=value).exists():
+            raise serializers.ValidationError("Cart does not exist")
+        return value
 
 
 class CollectionSerializer(serializers.ModelSerializer):
