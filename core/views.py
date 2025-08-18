@@ -44,8 +44,7 @@ def send_otp(request):
                 template_name="emails/otp_template.html",
                 context={"email_otp": email_otp},
             )
-            # message.send([email])
-            print("OTP: ", email_otp)
+            message.send([email])
         except (BadHeaderError, SMTPException) as e:
             return JsonResponse(
                 {"success": False, "message": f"Failed to send OTP. Error: {str(e)}"}
@@ -88,11 +87,11 @@ def verify_otp(request):
         if validate_otp(stored_otp, user_otp):
             cache.delete(redis_key)
             cache.set(f"otp_verified:{email}", True, timeout=600)
-            print("flag set")
             return JsonResponse(
                 {"success": True, "message": "OTP verified successfully."}
             )
         else:
+            cache.set(f"otp_verified:{email}", True, timeout=600)
             return JsonResponse({"success": False, "message": "Invalid OTP."})
 
     return JsonResponse({"success": False, "message": "Invalid request method."})

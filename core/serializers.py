@@ -8,15 +8,12 @@ from rest_framework import serializers
 
 class UserCreateSerializer(BaseUserCreatePasswordRetypeSerializer):
     def validate(self, attrs):
-        print("Entered validate method")
         email = attrs.get("email")
 
         if not cache.get(f"otp_verified:{email}"):
             raise serializers.ValidationError(
                 {"email": "You must verify your email before registration."}
             )
-
-        print("verified")
 
         return super().validate(attrs)
 
