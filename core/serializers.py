@@ -23,6 +23,7 @@ class UserCreateSerializer(BaseUserCreatePasswordRetypeSerializer):
     def create(self, validated_data):
         email = validated_data.get("email")
         cache.delete(f"otp_verified:{email}")
+        print("deleted the flag")
         return super().create(validated_data)
 
     class Meta(BaseUserCreatePasswordRetypeSerializer.Meta):
