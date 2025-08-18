@@ -15,6 +15,8 @@ class UserCreateSerializer(BaseUserCreatePasswordRetypeSerializer):
                 {"email": "You must verify your email before registration."}
             )
 
+        print("verified")
+
         return super().validate(attrs)
 
     def create(self, validated_data):
