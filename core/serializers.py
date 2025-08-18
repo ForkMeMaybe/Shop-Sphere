@@ -2,9 +2,26 @@ from djoser.serializers import (
     UserSerializer as BaseUserSerializer,
     UserCreatePasswordRetypeSerializer as BaseUserCreatePasswordRetypeSerializer,
 )
+from django.core.cache import cache
+from rest_framework import serializers
 
 
 class UserCreateSerializer(BaseUserCreatePasswordRetypeSerializer):
+    def validate(self, attrs):
+        email = attrs.get("email")
+
+        if not cache.get(f"otp_verified:{email}"):
+            raise serializers.ValidationError(
+                {"email": "You must verify your email before registration."}
+            )
+
+        return super().validate(attrs)
+
+    def create(self, validated_data):
+        email = validated_data.get("email")
+        cache.delete(f"otp_verified:{email}")
+        return super().create(validated_data)
+
     class Meta(BaseUserCreatePasswordRetypeSerializer.Meta):
         fields = [
             "id",

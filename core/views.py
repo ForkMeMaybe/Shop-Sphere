@@ -1,6 +1,4 @@
-from django.http import JsonResponse, HttpResponse
-from requests import Response
-from .utils import generate_otp, validate_otp
+from django.http import JsonResponse
 from django.core.mail import BadHeaderError
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
@@ -8,13 +6,9 @@ from django.core.validators import validate_email
 from django.views.decorators.csrf import csrf_exempt, ensure_csrf_cookie
 from django.views.decorators.http import require_http_methods
 import json
-from templated_mail.mail import BaseEmailMessage
 from smtplib import SMTPException
-from django.shortcuts import render
-from django.middleware.csrf import get_token
-from django.template.loader import render_to_string
-from django.http import HttpResponse
-from django.middleware.csrf import get_token
+from templated_mail.mail import BaseEmailMessage
+from .utils import generate_otp, validate_otp
 
 
 @ensure_csrf_cookie
@@ -92,6 +86,7 @@ def verify_otp(request):
 
         if validate_otp(stored_otp, user_otp):
             cache.delete(redis_key)
+            cache.set(f"otp_verified:{email}", True, timeout=600)
             return JsonResponse(
                 {"success": True, "message": "OTP verified successfully."}
             )
