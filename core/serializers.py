@@ -14,7 +14,7 @@ class UserCreateSerializer(BaseUserCreatePasswordRetypeSerializer):
         if not cache.get(f"otp_verified:{email}"):
             raise serializers.ValidationError(
                 {
-                    "email": "Skipping steps already? Love the confidence. Hate the execution. 💀"
+                    "email": "Brilliant plan! Who even needs verified emails in 2025, right?"
                 }
             )
 
