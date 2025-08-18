@@ -12,19 +12,17 @@ class UserCreateSerializer(BaseUserCreatePasswordRetypeSerializer):
         print(cache.get(f"otp_verified:{email}"))
 
         if not cache.get(f"otp_verified:{email}"):
-            print("not verified")
             raise serializers.ValidationError(
-                {"email": "You must verify your email before registration."}
+                {
+                    "email": "Skipping steps already? Love the confidence. Hate the execution. 💀"
+                }
             )
-
-        print("verified")
 
         return super().validate(attrs)
 
     def create(self, validated_data):
         email = validated_data.get("email")
         cache.delete(f"otp_verified:{email}")
-        print("deleted the flag")
         return super().create(validated_data)
 
     class Meta(BaseUserCreatePasswordRetypeSerializer.Meta):

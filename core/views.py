@@ -87,11 +87,11 @@ def verify_otp(request):
         if validate_otp(stored_otp, user_otp):
             cache.delete(redis_key)
             cache.set(f"otp_verified:{email}", True, timeout=600)
-            print("flag set if")
             return JsonResponse(
                 {"success": True, "message": "OTP verified successfully."}
             )
         else:
+            cache.delete(redis_key)
             return JsonResponse({"success": False, "message": "Invalid OTP."})
 
     return JsonResponse({"success": False, "message": "Invalid request method."})
