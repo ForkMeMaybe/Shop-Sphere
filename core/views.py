@@ -92,8 +92,6 @@ def verify_otp(request):
                 {"success": True, "message": "OTP verified successfully."}
             )
         else:
-            print("flag set else")
-            cache.set(f"otp_verified:{email}", True, timeout=600)
             return JsonResponse({"success": False, "message": "Invalid OTP."})
 
     return JsonResponse({"success": False, "message": "Invalid request method."})
