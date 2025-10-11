@@ -3,7 +3,6 @@ import razorpay
 from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
-from django.http import HttpResponseBadRequest
 from typing import Any
 from django.db.models import Count, Avg
 from django.http import HttpResponse
@@ -103,12 +102,12 @@ class PaymentView(GenericAPIView):
 class PaymentHandlerView(APIView):
     def post(self, request):
         try:
-            # ✅ Use `request.data` instead of `request.POST`
+            # Use `request.data` instead of `request.POST`
             payment_id = request.data.get("razorpay_payment_id", "")
             razorpay_order_id = request.data.get("razorpay_order_id", "")
             signature = request.data.get("razorpay_signature", "")
 
-            # ✅ Validate required fields
+            # Validate required fields
             if not payment_id or not razorpay_order_id or not signature:
                 return Response(
                     {"error": "Missing required payment details"},
@@ -121,15 +120,15 @@ class PaymentHandlerView(APIView):
                 "razorpay_signature": signature,
             }
 
-            # ✅ Verify payment signature
+            # Verify payment signature
             result = razorpay_client.utility.verify_payment_signature(params_dict)
             if result:
                 try:
-                    # 🔥 Fetch the correct amount from the order Razorpay object
+                    # Fetch the correct amount from the order Razorpay object
                     order = razorpay_client.order.fetch(razorpay_order_id)
-                    amount = order["amount"]  # ✅ Use the exact amount from the order
+                    amount = order["amount"]  # Use the exact amount from the order
 
-                    # ✅ Capture the payment
+                    # Capture the payment
                     razorpay_client.payment.capture(payment_id, amount)
                     return Response({"message": "Payment successful"})
                 except:
