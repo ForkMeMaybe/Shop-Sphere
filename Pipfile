@@ -26,6 +26,8 @@ dj-database-url = "*"
 django-otp = "*"
 pyotp = "*"
 razorpay = "*"
+sendgrid = "*"
+django-sendgrid-v5 = "*"
 
 [dev-packages]
 pytest = "*"

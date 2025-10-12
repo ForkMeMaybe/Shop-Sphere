@@ -48,11 +48,15 @@ DATABASES = {"default": dj_database_url.config()}
 
 DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL")
 
-EMAIL_HOST = "smtp.gmail.com"
-EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
-EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
+EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
+# EMAIL_HOST = "smtp.gmail.com"
+# EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
+# EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+
+SENDGRID_SANDBOX_MODE_IN_DEBUG = False
+SENDGRID_API_KEY = os.environ.get("SENDGRID_API_KEY")
 
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
