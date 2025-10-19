@@ -31,6 +31,7 @@ urlpatterns = [
     path("store/", include("store.urls")),
     path("auth/", include("djoser.urls")),
     path("auth/", include("djoser.urls.jwt")),
+    path("assistant/", include("assistant.urls")),
 ] + debug_toolbar_urls()
 
 if settings.DEBUG:

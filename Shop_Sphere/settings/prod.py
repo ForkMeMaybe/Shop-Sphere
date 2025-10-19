@@ -2,6 +2,14 @@ from .common import *
 import dj_database_url
 import os
 
+AGENT_API_KEY = os.environ.get("AGENT_API_KEY", "your_default_agent_api_key")
+AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID", "your_default_agent_api_key")
+AWS_SECRET_ACCESS_KEY = os.environ.get(
+    "AWS_SECRET_ACCESS_KEY", "your_default_agent_api_key"
+)
+AWS_DEFAULT_REGION = "us-east-1"
+
+
 ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(" ")
 
 REDIS_URL = os.environ.get("REDIS_URL")

@@ -28,6 +28,7 @@ pyotp = "*"
 razorpay = "*"
 sendgrid = "*"
 django-sendgrid-v5 = "*"
+boto3 = "*"
 
 [dev-packages]
 pytest = "*"
