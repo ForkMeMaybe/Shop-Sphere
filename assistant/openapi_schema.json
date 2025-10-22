@@ -12,10 +12,10 @@
     }
   ],
   "paths": {
-    "/store/products/": {
+    "/store/list-products/": {
       "get": {
         "summary": "List Products",
-        "description": "Retrieves a list of products. Can be filtered by collection, and searched by title or description.",
+        "description": "Retrieves a list of products. Can be filtered by collection, and searched by title or description, and price range.",
         "operationId": "list_products",
         "parameters": [
           {
@@ -41,6 +41,22 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "unit_price__gt",
+            "in": "query",
+            "description": "Minimum unit price for filtering products",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "unit_price__lt",
+            "in": "query",
+            "description": "Maximum unit price for filtering products",
+            "schema": {
+              "type": "number"
+            }
           }
         ],
         "responses": {
@@ -50,7 +66,7 @@
         }
       }
     },
-    "/store/products/{id}/": {
+    "/store/list-products/{id}/": {
       "get": {
         "summary": "Get Product Details",
         "description": "Retrieves the details of a specific product.",

@@ -48,6 +48,7 @@ from .serializers import (
     UpdateOrderSerializer,
     PaymentSerializer,
     AddressSerializer,
+    ProductListSerializer,
 )
 from .filters import ProductFilter
 from rest_framework.generics import GenericAPIView
@@ -146,6 +147,29 @@ class PaymentHandlerView(APIView):
                 {"error": f"Server error: {str(e)}"},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )
+
+
+class ProductListViewSet(ModelViewSet):
+    queryset = Product.objects.annotate(
+        review_count=Count("reviews"), average_rating=Avg("reviews__stars")
+    ).all()
+    serializer_class = ProductListSerializer
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+    filterset_class = ProductFilter
+    pagination_class = DefaultPagination
+    permission_classes = [IsAdminOrReadOnly]
+    search_fields = ["title", "description"]
+    ordering_fields = ["unit_price", "last_update"]
+
+    def destroy(self, request, *args, **kwargs):
+        if OrderItem.objects.filter(product_id=kwargs["pk"]).count() > 0:
+            return Response(
+                {
+                    "error": "product cannot be deleted because it is associated with an order item"
+                },
+                status=status.HTTP_405_METHOD_NOT_ALLOWED,
+            )
+        return super().destroy(request, *args, **kwargs)
 
 
 class ProductViewSet(ModelViewSet):

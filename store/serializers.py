@@ -84,6 +84,29 @@ class ProductSerializer(serializers.ModelSerializer):
         return product.unit_price * Decimal(1.1)
 
 
+class ProductListSerializer(serializers.ModelSerializer):
+    review_count = serializers.IntegerField(read_only=True)
+    average_rating = serializers.FloatField(read_only=True)
+    price_with_tax = serializers.SerializerMethodField(method_name="calculate_tax")
+
+    class Meta:
+        model = Product
+        fields = [
+            "id",
+            "title",
+            "description",
+            "slug",
+            "inventory",
+            "unit_price",
+            "price_with_tax",
+            "review_count",
+            "average_rating",
+        ]
+
+    def calculate_tax(self, product):
+        return product.unit_price * Decimal(1.1)
+
+
 class ReviewSerializer(serializers.ModelSerializer):
     user = serializers.CharField(source="user.username", read_only=True)
 
