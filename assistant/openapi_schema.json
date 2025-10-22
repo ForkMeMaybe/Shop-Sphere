@@ -12,7 +12,7 @@
     }
   ],
   "paths": {
-    "/store/products/": {
+    "/store/list-products/": {
       "get": {
         "summary": "List Products",
         "description": "Retrieves a list of products. Can be filtered by collection, and searched by title or description, and price range.",
@@ -66,7 +66,7 @@
         }
       }
     },
-    "/store/products/{id}/": {
+    "/store/list-products/{id}/": {
       "get": {
         "summary": "Get Product Details",
         "description": "Retrieves the details of a specific product.",
@@ -188,6 +188,87 @@
         "responses": {
           "201": {
             "description": "Item added to cart."
+          }
+        }
+      }
+    },
+    "/store/carts/{cart_id}/items/{item_id}/": {
+      "patch": {
+        "summary": "Update Cart Item Quantity",
+        "description": "Updates the quantity of a specific item in the shopping cart.",
+        "operationId": "update_cart_item",
+        "parameters": [
+          {
+            "name": "cart_id",
+            "in": "path",
+            "required": true,
+            "description": "The ID of the cart",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "item_id",
+            "in": "path",
+            "required": true,
+            "description": "The ID of the cart item to update",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "quantity": {
+                    "type": "integer",
+                    "description": "The new quantity for the cart item"
+                  }
+                },
+                "required": ["quantity"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Cart item quantity updated."
+          }
+        }
+      },
+      "delete": {
+        "summary": "Remove Cart Item",
+        "description": "Removes a specific item from the shopping cart.",
+        "operationId": "remove_cart_item",
+        "parameters": [
+          {
+            "name": "cart_id",
+            "in": "path",
+            "required": true,
+            "description": "The ID of the cart",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "item_id",
+            "in": "path",
+            "required": true,
+            "description": "The ID of the cart item to remove",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Cart item removed."
           }
         }
       }

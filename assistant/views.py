@@ -53,7 +53,12 @@ class AssistantChatView(APIView):
         agent_alias_id = "MNW36FZSOI"
 
         # Bedrock requires a sessionId, even if temporary
-        session_id = str(uuid.uuid4())
+        session_id = request.data.get("session_id", str(uuid.uuid4()))
+        cart_id = request.headers.get("X-Cart-ID")  # Get cart_id from request header
+
+        session_attributes = {}
+        if cart_id:
+            session_attributes["cart_id"] = cart_id
 
         try:
             response = bedrock_agent_runtime.invoke_agent(
@@ -61,6 +66,9 @@ class AssistantChatView(APIView):
                 agentAliasId=agent_alias_id,
                 sessionId=session_id,
                 inputText=user_message,
+                sessionState={
+                    "sessionAttributes": session_attributes
+                },
             )
 
             # Stream completion output
