@@ -46,7 +46,7 @@ class AssistantChatView(APIView):
 
         # Configure a longer timeout for the Boto3 client
         config = Config(
-            read_timeout=200,  # Set read timeout to 118 seconds
+            read_timeout=118,  # Set read timeout to 118 seconds
             connect_timeout=60,
             retries={"max_attempts": 0},
         )
