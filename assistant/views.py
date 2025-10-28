@@ -46,9 +46,7 @@ class AssistantChatView(APIView):
 
         # Configure a longer timeout for the Boto3 client
         config = Config(
-            read_timeout=90,  # Set read timeout to 90 seconds
-            connect_timeout=60,
-            retries={"max_attempts": 0},
+            read_timeout=110, connect_timeout=60, retries={"max_attempts": 0}
         )
 
         # Initialize the Bedrock Agent Runtime client with the new config
