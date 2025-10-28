@@ -133,7 +133,7 @@
             "name": "cart_id",
             "in": "path",
             "required": true,
-            "description": "The ID of the cart to retrieve",
+            "description": "The UUID of the cart. This value must be substituted directly into the URL path, e.g., /store/carts/a1b2c3d4-e5f6-7890-1234-567890abcdef/.",
             "schema": {
               "type": "string",
               "format": "uuid"
@@ -150,14 +150,14 @@
     "/store/carts/{cart_id}/items/": {
       "post": {
         "summary": "Add Item to Cart",
-        "description": "Adds a product to a shopping cart.",
+        "description": "Adds a product to a shopping cart. The cart_id must be substituted directly into the URL path, e.g., /store/carts/a1b2c3d4-e5f6-7890-1234-567890abcdef/items/. The request body must be JSON with 'product_id' (integer) and 'quantity' (integer), e.g., { \"product_id\": 1, \"quantity\": 2 }.",
         "operationId": "add_item_to_cart",
         "parameters": [
           {
             "name": "cart_id",
             "in": "path",
             "required": true,
-            "description": "The ID of the cart",
+            "description": "The UUID of the cart. This value must be substituted directly into the URL path.",
             "schema": {
               "type": "string",
               "format": "uuid"
@@ -195,14 +195,14 @@
     "/store/carts/{cart_id}/items/{item_id}/": {
       "patch": {
         "summary": "Update Cart Item Quantity",
-        "description": "Updates the quantity of a specific item in the shopping cart.",
+        "description": "Updates the quantity of a specific item in the shopping cart. The cart_id and item_id must be substituted directly into the URL path, e.g., /store/carts/a1b2c3d4-e5f6-7890-1234-567890abcdef/items/123/. The request body must be JSON with 'quantity' (integer), e.g., { \"quantity\": 5 }.",
         "operationId": "update_cart_item",
         "parameters": [
           {
             "name": "cart_id",
             "in": "path",
             "required": true,
-            "description": "The ID of the cart",
+            "description": "The UUID of the cart. This value must be substituted directly into the URL path.",
             "schema": {
               "type": "string",
               "format": "uuid"
@@ -212,7 +212,7 @@
             "name": "item_id",
             "in": "path",
             "required": true,
-            "description": "The ID of the cart item to update",
+            "description": "The ID of the cart item to update. This value must be substituted directly into the URL path.",
             "schema": {
               "type": "integer"
             }
@@ -243,14 +243,14 @@
       },
       "delete": {
         "summary": "Remove Cart Item",
-        "description": "Removes a specific item from the shopping cart.",
+        "description": "Removes a specific item from the shopping cart. The cart_id and item_id must be substituted directly into the URL path, e.g., /store/carts/a1b2c3d4-e5f6-7890-1234-567890abcdef/items/123/.",
         "operationId": "remove_cart_item",
         "parameters": [
           {
             "name": "cart_id",
             "in": "path",
             "required": true,
-            "description": "The ID of the cart",
+            "description": "The UUID of the cart. This value must be substituted directly into the URL path.",
             "schema": {
               "type": "string",
               "format": "uuid"
@@ -260,7 +260,7 @@
             "name": "item_id",
             "in": "path",
             "required": true,
-            "description": "The ID of the cart item to remove",
+            "description": "The ID of the cart item to remove. This value must be substituted directly into the URL path.",
             "schema": {
               "type": "integer"
             }

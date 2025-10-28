@@ -1,6 +1,7 @@
 from .common import *
 import dj_database_url
 import os
+import corsheaders.defaults
 
 AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID", "your_default_agent_api_key")
 AWS_SECRET_ACCESS_KEY = os.environ.get(
@@ -27,6 +28,11 @@ CSRF_COOKIE_SAMESITE = "None"
 CSRF_COOKIE_SECURE = True
 CSRF_USE_SESSIONS = False
 CORS_EXPOSE_HEADERS = os.environ.get("CORS_EXPOSE_HEADERS", "").split(" ")
+
+CORS_ALLOW_HEADERS = [
+    *corsheaders.defaults.default_headers,
+    "X-Cart-ID",  
+]
 
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOWED_ORIGINS = [

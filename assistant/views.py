@@ -49,8 +49,8 @@ class AssistantChatView(APIView):
         )
 
         # ✅ Replace with your actual Agent and Alias IDs
-        agent_id = "WS0TSDJTEJ"
-        agent_alias_id = "MNW36FZSOI"
+        agent_id = "JXRXU9WHUR"
+        agent_alias_id = "BDYY2BRYHW"
 
         # Bedrock requires a sessionId, even if temporary
         session_id = request.data.get("session_id", str(uuid.uuid4()))
@@ -66,9 +66,7 @@ class AssistantChatView(APIView):
                 agentAliasId=agent_alias_id,
                 sessionId=session_id,
                 inputText=user_message,
-                sessionState={
-                    "sessionAttributes": session_attributes
-                },
+                sessionState={"sessionAttributes": session_attributes},
             )
 
             # Stream completion output
