@@ -35,6 +35,7 @@ import uuid
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
+from botocore.config import Config
 
 
 class AssistantChatView(APIView):
@@ -43,9 +44,16 @@ class AssistantChatView(APIView):
     def post(self, request):
         user_message = request.data.get("message", "")
 
-        # Initialize the Bedrock Agent Runtime client (ensure correct region)
+        # Configure a longer timeout for the Boto3 client
+        config = Config(
+            read_timeout=90,  # Set read timeout to 90 seconds
+            connect_timeout=60,
+            retries={"max_attempts": 0},
+        )
+
+        # Initialize the Bedrock Agent Runtime client with the new config
         bedrock_agent_runtime = boto3.client(
-            "bedrock-agent-runtime", region_name="us-east-1"
+            "bedrock-agent-runtime", region_name="us-east-1", config=config
         )
 
         # ✅ Replace with your actual Agent and Alias IDs
