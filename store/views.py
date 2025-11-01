@@ -37,6 +37,7 @@ from .serializers import (
     AddCartItemSerializer,
     CartItemSerializer,
     CartSerializer,
+    CartSerializerNoImage,
     CollectionSerializer,
     CreateOrderSerializer,
     CustomerSerializer,
@@ -202,7 +203,7 @@ class CollectionViewSet(ModelViewSet):
     serializer_class = CollectionSerializer
     permission_classes = [IsAdminOrReadOnly]
     filter_backends = [SearchFilter]
-    search_fields = ['title']
+    search_fields = ["title"]
 
     def destroy(self, request, *args, **kwargs):
         if Product.objects.filter(collection_id=kwargs["pk"]).count() > 0:
@@ -238,6 +239,11 @@ class CartViewSet(
 ):
     queryset = Cart.objects.prefetch_related("items__product").all()
     serializer_class = CartSerializer
+
+
+class CartViewSetNoImage(RetrieveModelMixin, GenericViewSet):
+    queryset = Cart.objects.prefetch_related("items__product").all()
+    serializer_class = CartSerializerNoImage
 
 
 class CartItemViewSet(ModelViewSet):
