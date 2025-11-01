@@ -254,8 +254,24 @@ class OrderItemSerializer(serializers.ModelSerializer):
         fields = ["id", "product", "unit_price", "quantity"]
 
 
+class OrderItemSerializerNoImage(serializers.ModelSerializer):
+    product = SimpleProductSerializerNoImage()
+
+    class Meta:
+        model = OrderItem
+        fields = ["id", "product", "unit_price", "quantity"]
+
+
 class OrderSerializer(serializers.ModelSerializer):
     items = OrderItemSerializer(many=True)
+
+    class Meta:
+        model = Order
+        fields = ["id", "placed_at", "payment_status", "items"]
+
+
+class OrderSerializerNoImage(serializers.ModelSerializer):
+    items = OrderItemSerializerNoImage(many=True)
 
     class Meta:
         model = Order
