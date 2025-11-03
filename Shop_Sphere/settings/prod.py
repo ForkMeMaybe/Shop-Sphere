@@ -31,7 +31,7 @@ CORS_EXPOSE_HEADERS = os.environ.get("CORS_EXPOSE_HEADERS", "").split(" ")
 
 CORS_ALLOW_HEADERS = [
     *corsheaders.defaults.default_headers,
-    "X-Cart-ID",  
+    "X-Cart-ID",
 ]
 
 CORS_ALLOW_CREDENTIALS = True

@@ -347,7 +347,7 @@ class OrderViewSetNoImage(ModelViewSet):
         )
         serializer.is_valid(raise_exception=True)
         order = serializer.save()
-        serializer = OrderSerializer(order)
+        serializer = OrderSerializerNoImage(order)
         return Response(serializer.data)
 
     def get_queryset(self):
