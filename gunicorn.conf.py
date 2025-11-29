@@ -1,14 +1,13 @@
 # gunicorn.conf.py
-import multiprocessing
 
-# Number of worker processes
-workers = multiprocessing.cpu_count() * 2 + 1
+# Number of worker processes - a safe, fixed number for low-memory environments
+workers = 2
 
 # Use the 'gthread' worker class for handling concurrent I/O-bound requests
 worker_class = 'gthread'
 
 # Number of threads per worker
-threads = 4
+threads = 2
 
 # Timeout for workers
 timeout = 120
