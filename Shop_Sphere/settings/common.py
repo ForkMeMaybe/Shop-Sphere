@@ -34,7 +34,7 @@ INSTALLED_APPS = [
     "corsheaders",
     "rest_framework",
     "djoser",
-    "anymail"
+    "anymail",
     # "silk",
     "playground",
     "store",
