@@ -8,7 +8,7 @@ from django.views.decorators.http import require_http_methods
 import json
 from anymail.exceptions import AnymailAPIError 
 from templated_mail.mail import BaseEmailMessage
-from .utils import generate_otp, validate_otp
+# from .utils import generate_otp, validate_otp
 
 
 @ensure_csrf_cookie
