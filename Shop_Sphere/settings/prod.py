@@ -12,6 +12,10 @@ AWS_DEFAULT_REGION = "us-east-1"
 
 ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(" ")
 
+ANYMAIL = {
+    "RESEND_API_KEY" : os.environ.get("RESEND_API_KEY")
+}
+
 REDIS_URL = os.environ.get("REDIS_URL")
 
 RAZOR_KEY_ID = os.environ.get("RAZOR_KEY_ID")
@@ -61,7 +65,7 @@ DATABASES = {"default": dj_database_url.config()}
 
 DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL")
 
-EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
+EMAIL_BACKEND = "anymail.backends.resend.EmailBackend"
 # EMAIL_HOST = "smtp.gmail.com"
 # EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
 # EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")

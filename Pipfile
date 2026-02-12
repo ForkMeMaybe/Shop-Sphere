@@ -26,9 +26,8 @@ dj-database-url = "*"
 django-otp = "*"
 pyotp = "*"
 razorpay = "*"
-sendgrid = "*"
-django-sendgrid-v5 = "*"
 boto3 = "*"
+django-anymail = {extras = ["resend"], version = "*"}
 
 [dev-packages]
 pytest = "*"

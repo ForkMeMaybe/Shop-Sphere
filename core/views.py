@@ -6,7 +6,7 @@ from django.core.validators import validate_email
 from django.views.decorators.csrf import csrf_exempt, ensure_csrf_cookie
 from django.views.decorators.http import require_http_methods
 import json
-from smtplib import SMTPException
+from anymail.exceptions import AnymailAPIError 
 from templated_mail.mail import BaseEmailMessage
 from .utils import generate_otp, validate_otp
 
@@ -45,7 +45,8 @@ def send_otp(request):
                 context={"email_otp": email_otp},
             )
             message.send([email])
-        except (BadHeaderError, SMTPException) as e:
+        # Update this block to catch AnymailAPIError
+        except (BadHeaderError, AnymailAPIError) as e:
             return JsonResponse(
                 {"success": False, "message": f"Failed to send OTP. Error: {str(e)}"}
             )
