@@ -31,11 +31,15 @@ CSRF_TRUSTED_ORIGINS = [
 CSRF_COOKIE_SAMESITE = "None"
 CSRF_COOKIE_SECURE = True
 CSRF_USE_SESSIONS = False
-CORS_EXPOSE_HEADERS = os.environ.get("CORS_EXPOSE_HEADERS", "").split(" ")
 
 CORS_ALLOW_HEADERS = [
     *corsheaders.defaults.default_headers,
     "X-Cart-ID",
+]
+
+CORS_EXPOSE_HEADERS = [
+    "Content-Type",
+    "X-CSRFToken",
 ]
 
 CORS_ALLOW_CREDENTIALS = True
@@ -63,7 +67,7 @@ DEBUG = os.getenv("DEBUG", "False") == "True"
 
 DATABASES = {"default": dj_database_url.config()}
 
-DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL")
+DEFAULT_FROM_EMAIL = os.environ.get("D EFAULT_FROM_EMAIL")
 
 EMAIL_BACKEND = "anymail.backends.resend.EmailBackend"
 # EMAIL_HOST = "smtp.gmail.com"
